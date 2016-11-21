@@ -1,5 +1,7 @@
-admin = require('./models/admin')
-user = require('./models/user')
+var admin = require('./models/admin')
+var user = require('./models/user')
+var writer = require('./models/writer')
+
 
 module.exports = {
     configure: function(service) {
@@ -14,12 +16,28 @@ module.exports = {
 
 
         //Admin Routes
+        service.get('/admin/getall/', function(request, response) {
+            admin.get(response)
+        })
+
+        service.get('/admin/:id', function(request, response) {
+            admin.getAdmin(request.params.id, response)
+        })
+
         service.post('/admin/', function(request, response) {
             admin.post(request.body, response)
         })
 
         service.post('/admin/login/', function(request, response) {
             admin.login(request.body, response)
+        })
+
+        service.put('/admin/', function(request, response) {
+            admin.update(request.body, response)
+        })
+
+        service.delete('/admin/:id', function(request, response) {
+            admin.delete(request.params.id, response)
         })
 
 
@@ -51,6 +69,36 @@ module.exports = {
 
         service.delete('/user/:id', function(request, response) {
             user.delete(request.params.id, response)
+        })
+
+
+        //Writer Routes
+        service.get('/writer/getall/', function(request, response) {
+            writer.get(response)
+        })
+
+        service.get('/writer/:id', function(request, response) {
+            writer.getWriter(request.params.id, response)
+        })
+
+        service.post('/writer/', function(request, response) {
+            writer.post(request.body, response)
+        })
+
+        service.post('/writer/verify/', function(request, response) {
+            writer.verify(request.body, response)
+        })
+
+        service.post('/writer/login/', function(request, response) {
+            writer.login(request.body, response)
+        })
+
+        service.put('/writer/', function(request, response) {
+            writer.update(request.body, response)
+        })
+
+        service.delete('/writer/:id', function(request, response) {
+            writer.delete(request.params.id, response)
         })
 
     }

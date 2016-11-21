@@ -4,19 +4,20 @@ var fs = require('fs')
 var jwt = require('jsonwebtoken')
 const jwtsecret = '7fchy5GCHGHJGYYC'
 const secret = 'jcjudr4yjj888HGCFC'
-const createAdminSecret = 'lYhJ8F0cFOWsAD95aJhQ'
 
-function admin() {
+function writer() {
 
     this.conn = null
     sequelize = null
+    this.writer = null
     this.admin = null
 
-    this.init = function() {
+    this.init = function(admin) {
         this.conn = connection.getConnection()
         sequelize = connection.getSequelize()
-        this.admin = this.conn.define('admin', {
-            adminid: {
+        this.admin = admin
+        this.writer = this.conn.define('writer', {
+            writerid: {
                 type: sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
@@ -29,50 +30,40 @@ function admin() {
             },
             pswd: sequelize.STRING(100),
             deviceid: sequelize.STRING,
-            su: {
-                type: sequelize.BOOLEAN,
-                allowNull: false
-            }
+            verified: sequelize.BOOLEAN
         }, {
             freezeTableName: true,
             timestamps: true
         })
-        this.admin.sync()
+        this.writer.sync()
     }
 
-    this.getAdminObject = function() {
-        return this.admin
+    this.getWriterObject = function() {
+        return this.writer
     }
 
     this.get = function(response) {
-        this.admin.findAll({
-            attributes: ['adminid', 'name', 'email', 'deviceid', 'su']
-        }).then(function(admin) {
-            response.send(admin)
+        this.writer.findAll({
+            attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
+        }).then(function(writer) {
+            response.send(writer)
         })
     }
 
-    this.getAdmin = function(recordId, response) {
+    this.getWriter = function(recordId, response) {
         try {
             token = jwt.verify(recordId, jwtsecret)
-            this.admin.find({
-                attributes: ['adminid', 'name', 'email', 'deviceid', 'su'],
+            this.writer.find({
+                attributes: ['writerid', 'name', 'email', 'deviceid', 'verified'],
                 where: {
-                    adminid: token.adminid
+                    writerid: token.writerid
                 }
-            }).then(function(admin) {
-                if (admin)
-                    response.send(admin)
-                else
-                    response.send({
-                        status: 1,
-                        message: 'Admin does not exist'
-                    })
-
+            }).then(function(writer) {
+                response.send(writer)
             }).catch(function(error) {
                 response.send({
                     status: 1,
-                    message: 'Admin does not exist'
+                    message: 'Writer does not exist'
                 })
             })
         } catch (error) {
@@ -90,87 +81,79 @@ function admin() {
     }
 
     this.post = function(record, response) {
-        if (record.secret == createAdminSecret) {
-            hash = crypto.createHmac('sha256', secret)
-                .update(record.pswd)
-                .digest('hex')
-            this.admin.create({
-                name: record.name,
-                email: record.email,
-                pswd: hash,
-                deviceid: record.deviceid,
-                su: record.su
-            }).then(function() {
-                response.send({
-                    status: 0,
-                    message: 'Admin added Successfully'
-                })
-            }).catch(function(error) {
-                try {
-                    message = ''
-                    errorMessage = error.errors[0].message
-                    errorMessage = errorMessage.toString().substring(0, errorMessage.indexOf(' '))
-                    if (errorMessage == 'email')
-                        message = 'This email id is already registered'
-                    response.send({
-                        status: 1,
-                        message: message
-                    })
-                } catch (error) {
-                    response.send({
-                        status: 1,
-                        message: 'Admin not added'
-                    })
-                }
-            })
-        } else {
+        hash = crypto.createHmac('sha256', secret)
+            .update(record.pswd)
+            .digest('hex')
+        this.writer.create({
+            name: record.name,
+            email: record.email,
+            pswd: hash,
+            verified: false,
+            deviceid: record.deviceid
+        }).then(function() {
             response.send({
-                status: 2,
-                message: 'Invalid Secret'
+                status: 0,
+                message: 'Writer added Successfully'
             })
-        }
+        }).catch(function(error) {
+            try {
+                message = ''
+                errorMessage = error.errors[0].message
+                errorMessage = errorMessage.toString().substring(0, errorMessage.indexOf(' '))
+                if (errorMessage == 'email')
+                    message = 'This email id is already registered'
+                response.send({
+                    status: 1,
+                    message: message
+                })
+            } catch (error) {
+                response.send({
+                    status: 1,
+                    message: 'Writer not added'
+                })
+            }
+        })
     }
 
     this.update = function(record, response) {
         try {
             token = jwt.verify(record.token, jwtsecret)
-            adminid = token.adminid
-            this.admin.find({
+            writerid = token.writerid
+            this.writer.find({
                 where: {
-                    adminid: adminid
+                    writerid: writerid
                 }
-            }).then(function(admin) {
-                admin.update({
-                    name: record.name || admin.dataValues.name,
-                    email: record.email || admin.dataValues.email,
-                    gender: record.gender || admin.dataValues.gender,
-                    deviceid: record.deviceid || admin.dataValues.deviceid,
-                    deviceid: record.su || admin.dataValues.su
+            }).then(function(writer) {
+                writer.update({
+                    name: record.name || writer.dataValues.name,
+                    email: record.email || writer.dataValues.email,
+                    deviceid: record.deviceid || writer.dataValues.deviceid,
+                    verified: record.verified || writer.dataValues.verified
                 }, {
                     where: {
-                        adminid: adminid
+                        writerid: writerid
                     }
                 }).then(function(updatedRecord) {
                     if (record)
                         response.send({
                             status: 0,
-                            message: 'Admin updated successfully'
+                            message: 'Writer updated successfully'
                         })
                     else
                         response.send({
                             status: 1,
-                            message: 'Admin not updated'
+                            message: 'Writer not updated'
                         })
                 }).catch(function(error) {
                     response.send({
                         status: 2,
-                        message: 'Admin does not exist'
+                        message: 'Writer does not exist'
                     })
                 })
             }).catch(function(error) {
                 response.send({
                     status: 2,
-                    message: 'Admin does not exist'
+                    message: 'Writer does not exist'
                 })
             })
         } catch (error) {
@@ -190,41 +173,41 @@ function admin() {
     this.updatePassword = function(record, response) {
         try {
             token = jwt.verify(record.token, jwtsecret)
-            adminid = token.adminid
-            this.admin.find({
+            writerid = token.writerid
+            this.writer.find({
                 attributes: ['pswd'],
                 where: {
-                    adminid: adminid
+                    writerid: writerid
                 }
-            }).then(function(admin) {
+            }).then(function(writer) {
                 oldPassword = crypto.createHmac('sha256', secret)
                     .update(record.oldPswd)
                     .digest('hex')
                 newPassword = crypto.createHmac('sha256', secret)
                     .update(record.newPswd)
                     .digest('hex')
-                if (oldPassword == admin.dataValues.pswd) {
-                    admin.update({
+                if (oldPassword == writer.dataValues.pswd) {
+                    writer.update({
                         pswd: newPassword
                     }, {
                         where: {
-                            adminid: adminid
+                            writerid: writerid
                         }
                     }).then(function(record) {
                         if (record)
                             response.send({
                                 status: 0,
-                                message: 'Admin updated successfully'
+                                message: 'writer updated successfully'
                             })
                         else
                             response.send({
                                 status: 1,
-                                message: 'Admin not updated'
+                                message: 'writer not updated'
                             })
                     }).catch(function(error) {
                         response.send({
                             status: 2,
-                            message: 'Admin does not exist'
+                            message: 'writer does not exist'
                         })
                     })
                 } else {
@@ -236,7 +219,7 @@ function admin() {
             }).catch(function(error) {
                 response.send({
                     status: 2,
-                    message: 'Admin does not exist'
+                    message: 'writer does not exist'
                 })
             })
         } catch (error) {
@@ -257,25 +240,25 @@ function admin() {
     this.delete = function(recordId, response) {
         try {
             token = jwt.verify(recordId, jwtsecret)
-            this.admin.destroy({
+            this.writer.destroy({
                 where: {
-                    adminid: token.adminid
+                    writerid: token.writerid
                 }
             }).then(function(record) {
                 if (record)
                     response.send({
                         status: 0,
-                        message: 'Admin deleted successfully'
+                        message: 'Writer deleted successfully'
                     })
                 else
                     response.send({
                         status: 1,
-                        message: 'Admin does not exist'
+                        message: 'Writer does not exist'
                     })
             }).catch(function(error) {
                 response.send({
                     status: 1,
-                    message: 'Admin does not exist'
+                    message: 'Writer does not exist'
                 })
             })
         } catch (error) {
@@ -293,38 +276,94 @@ function admin() {
     }
 
     this.login = function(record, response) {
-        this.admin.find({
-            attributes: ['adminid', 'pswd'],
+        this.writer.find({
             where: {
                 email: record.email
             }
-        }).then(function(admin) {
+        }).then(function(writer) {
             hash = crypto.createHmac('sha256', secret)
                 .update(record.pswd)
                 .digest('hex')
-            if (hash == admin.dataValues.pswd) {
-                token = jwt.sign({
-                    adminid: admin.dataValues.adminid
-                }, jwtsecret)
-                response.send({
-                    status: 0,
-                    message: {
-                        message: 'Login Successful',
-                        token: token
-                    }
-                })
+            if (hash == writer.dataValues.pswd) {
+                if (writer.dataValues.verified) {
+                    token = jwt.sign({
+                        writerid: writer.dataValues.writerid
+                    }, jwtsecret)
+                    response.send({
+                        status: 0,
+                        message: {
+                            message: 'Login Successful',
+                            token: token
+                        }
+                    })
+                } else {
+                    response.send({
+                        status: 1,
+                        message: 'Writer not yet verified'
+                    })
+                }
             } else
                 response.send({
-                    status: 5,
+                    status: 2,
                     message: 'Invalid password'
                 })
         }).catch(function(error) {
             response.send({
-                status: 2,
-                message: 'Admin Does not exist'
+                status: 3,
+                message: 'Writer does not exist'
             })
         })
     }
+
+    this.verify = function(record, response) {
+        try {
+            token = jwt.verify(record.token, jwtsecret)
+            adminid = token.adminid
+            parent = this
+            this.admin.find({
+                where: {
+                    adminid: adminid
+                }
+            }).then(function(admin) {
+                if (admin) {
+                    parent.writer.update({
+                        verified: true
+                    }, {
+                        where: {
+                            writerid: record.writerid
+                        }
+                    }).then(function(updatedRecord) {
+                        if (updatedRecord)
+                            response.send({
+                                status: 0,
+                                message: 'Writer verified'
+                            })
+                        else
+                            response.send({
+                                status: 1,
+                                message: 'Writer does not exist'
+                            })
+                    })
+                }
+            }).catch(function(error) {
+                response.send({
+                    status: 2,
+                    message: 'Admin does not exist'
+                })
+            })
+        } catch (error) {
+            if (error.name == 'TokenExpiredError')
+                response.send({
+                    status: 3,
+                    message: 'Token Expired'
+                })
+            else
+                response.send({
+                    status: 4,
+                    message: 'Authentication Failed'
+                })
+        }
+    }
 }
 
-module.exports = new admin()
+module.exports = new writer()
