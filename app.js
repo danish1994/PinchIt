@@ -7,7 +7,7 @@ var setup = require('./setup')
 var mkdirp = require('mkdirp')
 var app = express()
 var ip = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8880
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8888
 
 
 connection.init()

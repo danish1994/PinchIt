@@ -23,6 +23,10 @@ function category() {
         this.category.sync()
     }
 
+    this.getCategoryObject = function() {
+        return this.category
+    }
+
     this.post = function(record, response) {
         this.category.create({
             category: record.category,

@@ -23,6 +23,9 @@ function subcategory() {
         this.subcategory.sync()
     }
 
+    this.getSubCategoryObject = function() {
+        return this.subcategory
+    }
 
     this.post = function(record, response) {
         this.subcategory.create({
