@@ -78,19 +78,23 @@ function post() {
         })
         this.post.sync()
 
-        this.admin.hasMany(this.post, {
+        this.post.belongsTo(this.admin, {
+            as: 'admin',
             foreignKey: 'adminid'
         })
 
-        this.category.hasMany(this.post, {
+        this.post.belongsTo(this.category, {
+            as: 'category',
             foreignKey: 'categoryid'
         })
 
-        this.subcategory.hasMany(this.post, {
+        this.post.belongsTo(this.subcategory, {
+            as: 'subcategory',
             foreignKey: 'subcategoryid'
         })
 
-        this.writer.hasMany(this.post, {
+        this.post.belongsTo(this.writer, {
+            as: 'writer',
             foreignKey: 'writerid'
         })
     }
