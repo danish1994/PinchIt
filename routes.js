@@ -1,6 +1,9 @@
 var admin = require('./models/admin')
 var user = require('./models/user')
 var writer = require('./models/writer')
+var post = require('./models/post')
+var category = require('./models/category')
+var subcategory = require('./models/subcategory')
 
 
 module.exports = {
@@ -38,6 +41,26 @@ module.exports = {
 
         service.delete('/admin/:id', function(request, response) {
             admin.delete(request.params.id, response)
+        })
+
+
+        //Category Routes
+        service.get('/category/', function(request, response) {
+            category.get(response)
+        })
+
+        service.post('/category/', function(request, response) {
+            category.post(request.body, response)
+        })
+
+
+        //SubCategory Routes
+        service.get('/subcategory/', function(request, response) {
+            subcategory.get(response)
+        })
+
+        service.post('/subcategory/', function(request, response) {
+            subcategory.post(request.body, response)
         })
 
 
@@ -99,6 +122,16 @@ module.exports = {
 
         service.delete('/writer/:id', function(request, response) {
             writer.delete(request.params.id, response)
+        })
+
+
+        //Post Routes
+        service.get('/post/', function(request, response) {
+            post.get(request.body, response)
+        })
+
+        service.post('/post/', function(request, response) {
+            post.postObject(request.body, response)
         })
 
     }

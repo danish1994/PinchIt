@@ -27,6 +27,14 @@ function category() {
         return this.category
     }
 
+    this.get = function(response) {
+        this.category.findAll({
+            attributes: ['categoryid', 'category']
+        }).then(function(category) {
+            response.send(category)
+        })
+    }
+
     this.post = function(record, response) {
         this.category.create({
             category: record.category,

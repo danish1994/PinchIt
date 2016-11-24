@@ -112,6 +112,8 @@ function admin() {
                     errorMessage = errorMessage.toString().substring(0, errorMessage.indexOf(' '))
                     if (errorMessage == 'email')
                         message = 'This email id is already registered'
+                    else
+                        message = error
                     response.send({
                         status: 1,
                         message: message
