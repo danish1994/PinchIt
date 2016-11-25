@@ -32,6 +32,11 @@ function category() {
             attributes: ['categoryid', 'category']
         }).then(function(category) {
             response.send(category)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
         })
     }
 

@@ -55,6 +55,11 @@ function subcategory() {
             }]
         }).then(function(subcategory) {
             response.send(subcategory)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
         })
     }
 

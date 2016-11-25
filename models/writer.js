@@ -47,6 +47,11 @@ function writer() {
             attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
         }).then(function(writer) {
             response.send(writer)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
         })
     }
 

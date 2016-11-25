@@ -67,7 +67,7 @@ function post() {
                     key: 'writerid'
                 }
             },
-            verify: {
+            verified: {
                 type: sequalize.BOOLEAN,
                 allowNull: false
             }
@@ -103,10 +103,73 @@ function post() {
         return this.post
     }
 
+
     this.get = function(record, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verify', 'updatedAt'],
-            order: ['updatedAt', 'DESC'],
+            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt'],
+            limit: record.limit,
+            offset: record.offset,
+            include: [{
+                model: this.category,
+                as: 'category',
+                attributes: ['categoryid', 'category']
+            }, {
+                model: this.subcategory,
+                as: 'subcategory',
+                attributes: ['subcategoryid', 'subcategory']
+            }, {
+                model: this.writer,
+                as: 'writer',
+                attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
+            }],
+            where: {
+                verified: true
+            }
+        }).then(function(posts) {
+            response.send(posts)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
+        })
+    }
+
+
+    this.getPost = function(recordId, response) {
+        this.post.findAll({
+            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt'],
+            include: [{
+                model: this.category,
+                as: 'category',
+                attributes: ['categoryid', 'category']
+            }, {
+                model: this.subcategory,
+                as: 'subcategory',
+                attributes: ['subcategoryid', 'subcategory']
+            }, {
+                model: this.writer,
+                as: 'writer',
+                attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
+            }],
+            where: {
+                postid: recordId
+            }
+        }).then(function(posts) {
+            response.send(posts)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
+        })
+    }
+
+
+
+    this.getAll = function(record, response) {
+        this.post.findAll({
+            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt'],
             limit: record.limit,
             offset: record.offset,
             include: [{
@@ -124,8 +187,15 @@ function post() {
             }]
         }).then(function(posts) {
             response.send(posts)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
         })
     }
+
+
 
     this.postObject = function(record, response) {
         try {
@@ -134,7 +204,7 @@ function post() {
             parent = this
             this.writer.find({
                 where: {
-                    writerid: writerid
+                    writerid: writerid,
                 }
             }).then(function(writer) {
                 if (writer.dataValues.verified) {
@@ -144,7 +214,7 @@ function post() {
                         categoryid: record.category,
                         subcategoryid: record.subcategory,
                         writerid: writer.dataValues.writerid,
-                        verify: false
+                        verified: false
                     }).then(function(post) {
                         response.send({
                             status: 0,
@@ -162,6 +232,58 @@ function post() {
                         message: 'Writer not verified'
                     })
             })
+        } catch (error) {
+            if (error.name == 'TokenExpiredError')
+                response.send({
+                    status: 3,
+                    message: 'Token Expired'
+                })
+            else
+                response.send({
+                    status: 4,
+                    message: 'Authentication Failed'
+                })
+        }
+    }
+
+
+    this.verify = function(record, response) {
+        try {
+            token = jwt.verify(record.token, jwtsecret)
+            adminid = token.adminid
+            parent = this
+            this.admin.find({
+                where: {
+                    adminid: adminid
+                }
+            }).then(function(admin) {
+                console.log(admin.dataValues.adminid)
+                parent.post.update({
+                    verified: true,
+                    adminid: admin.dataValues.adminid
+                }, {
+                    where: {
+                        postid: record.postid
+                    }
+                }).then(function(post) {
+                    if (post)
+                        response.send({
+                            status: 0,
+                            message: 'Post verified'
+                        })
+                    else
+                        response.send({
+                            status: 1,
+                            message: 'Post not verified'
+                        })
+                }).catch(function(error) {
+                    response.send({
+                        status: 2,
+                        message: error
+                    })
+                })
+            })
+
         } catch (error) {
             if (error.name == 'TokenExpiredError')
                 response.send({

@@ -56,6 +56,11 @@ function user() {
                 }
             }
             response.send(user)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
         })
     }
 

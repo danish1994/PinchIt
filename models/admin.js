@@ -49,6 +49,11 @@ function admin() {
             attributes: ['adminid', 'name', 'email', 'deviceid', 'su']
         }).then(function(admin) {
             response.send(admin)
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
         })
     }
 
