@@ -106,9 +106,12 @@ function post() {
 
     this.get = function(record, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt'],
+            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
             limit: record.limit,
             offset: record.offset,
+            order: [
+                ['createdAt', 'DESC']
+            ],
             include: [{
                 model: this.category,
                 as: 'category',
@@ -138,7 +141,10 @@ function post() {
 
     this.getPost = function(recordId, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt'],
+            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
+            order: [
+                ['createdAt', 'DESC']
+            ],
             include: [{
                 model: this.category,
                 as: 'category',
@@ -169,9 +175,12 @@ function post() {
 
     this.getAll = function(record, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt'],
+            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
             limit: record.limit,
             offset: record.offset,
+            order: [
+                ['createdAt', 'DESC']
+            ],
             include: [{
                 model: this.category,
                 as: 'category',
@@ -207,29 +216,35 @@ function post() {
                     writerid: writerid,
                 }
             }).then(function(writer) {
-                if (writer.dataValues.verified) {
-                    parent.post.create({
-                        post: record.post,
-                        image: record.image,
-                        categoryid: record.category,
-                        subcategoryid: record.subcategory,
-                        writerid: writer.dataValues.writerid,
-                        verified: false
-                    }).then(function(post) {
-                        response.send({
-                            status: 0,
-                            message: 'Post Added.'
+                if (writer) {
+                    if (writer.dataValues.verified) {
+                        parent.post.create({
+                            post: record.post,
+                            image: record.image,
+                            categoryid: record.category,
+                            subcategoryid: record.subcategory,
+                            writerid: writer.dataValues.writerid,
+                            verified: false
+                        }).then(function(post) {
+                            response.send({
+                                status: 0,
+                                message: 'Post Added.'
+                            })
+                        }).catch(function(error) {
+                            response.send({
+                                status: 1,
+                                message: error
+                            })
                         })
-                    }).catch(function(error) {
+                    } else
                         response.send({
-                            status: 1,
-                            message: error
+                            status: 2,
+                            message: 'Writer not verified'
                         })
-                    })
                 } else
                     response.send({
-                        status: 2,
-                        message: 'Writer not verified'
+                        status: 3,
+                        message: 'Token Expired'
                     })
             })
         } catch (error) {
@@ -257,31 +272,36 @@ function post() {
                     adminid: adminid
                 }
             }).then(function(admin) {
-                console.log(admin.dataValues.adminid)
-                parent.post.update({
-                    verified: true,
-                    adminid: admin.dataValues.adminid
-                }, {
-                    where: {
-                        postid: record.postid
-                    }
-                }).then(function(post) {
-                    if (post)
+                if (admin) {
+                    parent.post.update({
+                        verified: true,
+                        adminid: admin.dataValues.adminid
+                    }, {
+                        where: {
+                            postid: record.postid
+                        }
+                    }).then(function(post) {
+                        if (post)
+                            response.send({
+                                status: 0,
+                                message: 'Post verified'
+                            })
+                        else
+                            response.send({
+                                status: 1,
+                                message: 'Post not verified'
+                            })
+                    }).catch(function(error) {
                         response.send({
-                            status: 0,
-                            message: 'Post verified'
+                            status: 2,
+                            message: error
                         })
-                    else
-                        response.send({
-                            status: 1,
-                            message: 'Post not verified'
-                        })
-                }).catch(function(error) {
-                    response.send({
-                        status: 2,
-                        message: error
                     })
-                })
+                } else
+                    response.send({
+                        status: 3,
+                        message: 'Token Expired'
+                    })
             })
 
         } catch (error) {

@@ -349,7 +349,11 @@ function writer() {
                                 message: 'Writer does not exist'
                             })
                     })
-                }
+                } else
+                    response.send({
+                        status: 3,
+                        message: 'Token Expired'
+                    })
             }).catch(function(error) {
                 response.send({
                     status: 2,
