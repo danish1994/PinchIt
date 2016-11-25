@@ -1,4 +1,4 @@
-var connection = require('../connection')
+var connection = require('../../connection')
 var fs = require('fs')
 var jwt = require('jsonwebtoken')
 const jwtsecret = '7fchy5GCHGHJGYYC'
@@ -107,8 +107,8 @@ function post() {
     this.get = function(record, response) {
         this.post.findAll({
             attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
-            limit: record.limit,
             offset: record.offset,
+            limit: record.limit,
             order: [
                 ['createdAt', 'DESC']
             ],

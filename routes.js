@@ -1,10 +1,9 @@
-var admin = require('./models/admin')
-var user = require('./models/user')
-var writer = require('./models/writer')
-var post = require('./models/post')
-var category = require('./models/category')
-var subcategory = require('./models/subcategory')
-
+var admin_routes = require('./models/admin/routes')
+var category_routes = require('./models/category/routes')
+var subcategory_routes = require('./models/subcategory/routes')
+var post_routes = require('./models/post/routes')
+var user_routes = require('./models/user/routes')
+var writer_routes = require('./models/writer/routes')
 
 module.exports = {
     configure: function(service) {
@@ -19,132 +18,26 @@ module.exports = {
 
 
         //Admin Routes
-        service.get('/admin/getall/', function(request, response) {
-            admin.get(response)
-        })
-
-        service.get('/admin/:id', function(request, response) {
-            admin.getAdmin(request.params.id, response)
-        })
-
-        service.post('/admin/', function(request, response) {
-            admin.post(request.body, response)
-        })
-
-        service.post('/admin/login/', function(request, response) {
-            admin.login(request.body, response)
-        })
-
-        service.put('/admin/', function(request, response) {
-            admin.update(request.body, response)
-        })
-
-        service.delete('/admin/:id', function(request, response) {
-            admin.delete(request.params.id, response)
-        })
+        admin_routes.route(service)
 
 
         //Category Routes
-        service.get('/category/', function(request, response) {
-            category.get(response)
-        })
-
-        service.post('/category/', function(request, response) {
-            category.post(request.body, response)
-        })
+        category_routes.route(service)
 
 
         //SubCategory Routes
-        service.get('/subcategory/', function(request, response) {
-            subcategory.get(response)
-        })
-
-        service.post('/subcategory/', function(request, response) {
-            subcategory.post(request.body, response)
-        })
-
-
-
-        //User Routes
-        service.get('/user/getall/', function(request, response) {
-            user.get(response)
-        })
-
-        service.get('/user/:id', function(request, response) {
-            user.getUser(request.params.id, response)
-        })
-
-        service.get('/user/image/:id', function(request, response) {
-            user.getUserImage(request.params.id, response)
-        })
-
-        service.post('/user/', function(request, response) {
-            user.post(request.body, response)
-        })
-
-        service.post('/user/login/', function(request, response) {
-            user.login(request.body, response)
-        })
-
-        service.put('/user/', function(request, response) {
-            user.update(request.body, response)
-        })
-
-        service.delete('/user/:id', function(request, response) {
-            user.delete(request.params.id, response)
-        })
-
-
-        //Writer Routes
-        service.get('/writer/getall/', function(request, response) {
-            writer.get(response)
-        })
-
-        service.get('/writer/:id', function(request, response) {
-            writer.getWriter(request.params.id, response)
-        })
-
-        service.post('/writer/', function(request, response) {
-            writer.post(request.body, response)
-        })
-
-        service.post('/writer/verify/', function(request, response) {
-            writer.verify(request.body, response)
-        })
-
-        service.post('/writer/login/', function(request, response) {
-            writer.login(request.body, response)
-        })
-
-        service.put('/writer/', function(request, response) {
-            writer.update(request.body, response)
-        })
-
-        service.delete('/writer/:id', function(request, response) {
-            writer.delete(request.params.id, response)
-        })
+        subcategory_routes.route(service)
 
 
         //Post Routes
-        service.get('/post/getAll/', function(request, response) {
-            post.getAll(request.body, response)
-        })
+        post_routes.route(service)
 
-        service.get('/post/:id', function(request, response) {
-            post.getPost(request.params.id, response)
-        })
 
-        service.get('/post/', function(request, response) {
-            post.get(request.body, response)
-        })
+        //User Routes
+        user_routes.route(service)
 
-        service.post('/post/', function(request, response) {
-            post.postObject(request.body, response)
-        })
 
-        service.post('/post/verify/', function(request, response) {
-            post.verify(request.body, response)
-        })
-
+        //Writer Routes
+        writer_routes.route(service)
     }
 }

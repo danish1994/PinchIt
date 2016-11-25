@@ -1,4 +1,4 @@
-var connection = require('../connection')
+var connection = require('../../connection')
 var crypto = require('crypto')
 var fs = require('fs')
 var jwt = require('jsonwebtoken')

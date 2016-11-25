@@ -1,9 +1,9 @@
-var admin = require('./models/admin')
-var category = require('./models/category')
-var post = require('./models/post')
-var subcategory = require('./models/subcategory')
-var writer = require('./models/writer')
-var user = require('./models/user')
+var admin = require('./models/admin/model')
+var category = require('./models/category/model')
+var post = require('./models/post/model')
+var subcategory = require('./models/subcategory/model')
+var writer = require('./models/writer/model')
+var user = require('./models/user/model')
 
 module.exports = function() {
     user.init()
