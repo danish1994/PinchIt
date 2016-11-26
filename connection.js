@@ -4,8 +4,8 @@ var host = process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost'
 var port = process.env.OPENSHIFT_MYSQL_DB_PORT || 3306
 var userlocal = 'root'
 var passwordlocal = 'danish'
-var user = 'admin2sFVveC'
-var password = 'H5zPe5kIBXLr'
+var user = 'adminTCqa2ld'
+var password = 'RgSMylbgDMLR'
 
 function connection() {
     this.seq = null
@@ -13,7 +13,7 @@ function connection() {
 
     this.init = function() {
         this.sequelize = sequelize
-        this.seq = new sequelize('short_project', userlocal, passwordlocal, {
+        this.seq = new sequelize('nodejs', user, password, {
             host: host,
             dialect: 'mysql',
             pool: {
