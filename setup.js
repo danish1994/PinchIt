@@ -13,6 +13,6 @@ module.exports = function() {
     subcategory.init(category.getCategoryObject())
     admin.init()
     writer.init(admin.getAdminObject())
-    post.init(admin.getAdminObject(), category.getCategoryObject(), subcategory.getSubCategoryObject(), writer.getWriterObject())
-    views.init(user.getUserObject(),post.getPostObject())
+    views.init(user.getUserObject())
+    post.init(admin.getAdminObject(), category.getCategoryObject(), subcategory.getSubCategoryObject(), writer.getWriterObject(), views.getViewsObject())
 }

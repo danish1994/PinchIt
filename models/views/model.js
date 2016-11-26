@@ -9,14 +9,12 @@ function views() {
     this.views = null
 
     this.user = null
-    this.post = null
 
-    this.init = function(user, post) {
+    this.init = function(user) {
         this.conn = connection.getConnection()
         sequelize = connection.getSequelize()
         this.user = user
-        this.post = post
-
+        
         this.views = this.conn.define('views', {
             viewsid: {
                 type: sequelize.INTEGER,
@@ -52,11 +50,6 @@ function views() {
         this.views.belongsTo(this.user, {
             as: 'user',
             foreignKey: 'userid'
-        })
-
-        this.views.belongsTo(this.post, {
-            as: 'post',
-            foreignKey: 'postid'
         })
     }
 

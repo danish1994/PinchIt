@@ -13,14 +13,16 @@ function post() {
     this.subcategory = null
     this.writer = null
     this.admin = null
+    this.views = null
 
-    this.init = function(admin, category, subcategory, writer) {
+    this.init = function(admin, category, subcategory, writer, views) {
         this.conn = connection.getConnection()
         sequalize = connection.getSequelize()
         this.admin = admin
         this.category = category
         this.subcategory = subcategory
         this.writer = writer
+        this.views = views
 
         this.post = this.conn.define('post', {
             postid: {
@@ -97,6 +99,15 @@ function post() {
             as: 'writer',
             foreignKey: 'writerid'
         })
+
+        this.post.hasMany(this.views, {
+            as: 'views',
+            foreignKey: 'postid'
+        })
+
+        this.views.belongsTo(this.post, {
+            foreignKey: 'postid'
+        })
     }
 
     this.getPostObject = function() {
@@ -131,6 +142,7 @@ function post() {
         }).then(function(posts) {
             response.send(posts)
         }).catch(function(error) {
+            console.log
             response.send({
                 status: 1,
                 message: error
