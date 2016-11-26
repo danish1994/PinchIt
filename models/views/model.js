@@ -23,7 +23,7 @@ function views() {
                 primaryKey: true,
                 autoIncrement: true
             },
-            time: {
+            duration: {
                 type: sequelize.INTEGER,
                 allowNull: false
             },
@@ -77,7 +77,7 @@ function views() {
             }).then(function(user) {
                 if (user) {
                     parent.views.create({
-                        time: record.time,
+                        duration: record.duration,
                         postid: record.postid,
                         userid: user.dataValues.userid
                     }).then(function(views) {
