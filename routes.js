@@ -3,6 +3,7 @@ var category_routes = require('./models/category/routes')
 var subcategory_routes = require('./models/subcategory/routes')
 var post_routes = require('./models/post/routes')
 var user_routes = require('./models/user/routes')
+var views_routes = require('./models/views/routes')
 var writer_routes = require('./models/writer/routes')
 
 module.exports = {
@@ -39,5 +40,8 @@ module.exports = {
 
         //Writer Routes
         writer_routes.route(service)
+
+        //Views Routes
+        views_routes.route(service)
     }
 }

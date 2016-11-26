@@ -13,7 +13,7 @@ function connection() {
 
     this.init = function() {
         this.sequelize = sequelize
-        this.seq = new sequelize('nodejs', user, password, {
+        this.seq = new sequelize('nodejs', userlocal, passwordlocal, {
             host: host,
             dialect: 'mysql',
             pool: {
