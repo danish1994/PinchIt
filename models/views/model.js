@@ -14,7 +14,7 @@ function views() {
         this.conn = connection.getConnection()
         sequelize = connection.getSequelize()
         this.user = user
-        
+
         this.views = this.conn.define('views', {
             viewsid: {
                 type: sequelize.INTEGER,
@@ -57,6 +57,18 @@ function views() {
         return this.views
     }
 
+
+    this.getByPost = function(recordId, response) {
+        this.views.findAndCountAll({
+            where: {
+                postid: recordId
+            }
+        }).then(function(views) {
+            response.send(views.count)
+        })
+    }
+
+
     this.addView = function(record, response) {
         try {
             token = jwt.verify(record.token, jwtsecret)
@@ -69,20 +81,48 @@ function views() {
                 }
             }).then(function(user) {
                 if (user) {
-                    parent.views.create({
-                        duration: record.duration,
-                        postid: record.postid,
-                        userid: user.dataValues.userid
+                    parent.views.findAndCountAll({
+                        where: {
+                            postid: record.postid,
+                            userid: user.dataValues.userid
+                        }
                     }).then(function(views) {
-                        response.send({
-                            status: 0,
-                            message: 'Views Added'
-                        })
-                    }).catch(function(error) {
-                        response.send({
-                            status: 1,
-                            message: error
-                        })
+                        if (views.count == 0) {
+                            parent.views.create({
+                                duration: record.duration,
+                                postid: record.postid,
+                                userid: user.dataValues.userid
+                            }).then(function(views) {
+                                response.send({
+                                    status: 0,
+                                    message: 'Views Added'
+                                })
+                            }).catch(function(error) {
+                                response.send({
+                                    status: 1,
+                                    message: error
+                                })
+                            })
+                        } else {
+                            parent.views.update({
+                                duration: record.duration
+                            }, {
+                                where: {
+                                    postid: record.postid,
+                                    userid: user.dataValues.userid
+                                }
+                            }).then(function(views) {
+                                response.send({
+                                    status: 0,
+                                    message: 'Views Updated'
+                                })
+                            }).catch(function(error) {
+                                response.send({
+                                    status: 1,
+                                    message: error
+                                })
+                            })
+                        }
                     })
                 } else {
                     response.send({
