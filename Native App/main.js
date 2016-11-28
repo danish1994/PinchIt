@@ -18,7 +18,7 @@ export default class Main extends Component {
   render() {
     return (
       <Navigator
-        initialRoute={{ title: 'My Initial Scene', index: 0 }}
+        initialRoute={{ title: 'Post ' + 0, index: 0 }}
         renderScene={(route, navigator) =>
           <Post
             title={route.title}
@@ -27,7 +27,7 @@ export default class Main extends Component {
             onForward={ () => {
               const nextIndex = route.index + 1;
               navigator.push({
-                title: 'Scene ' + nextIndex,
+                title: 'Post ' + nextIndex,
                 index: nextIndex,
               });
             }}
