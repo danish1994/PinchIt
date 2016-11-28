@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import {AppRegistry, StyleSheet, Text, View, TouchableOpacity, Alert, Navigator} from 'react-native'
 
 import TitleScreen from './app/screen/TitleScreen'
+import PostScreen from './app/screen/PostScreen'
 
 import ViewContainer from './app/component/ViewContainer'
 
@@ -15,14 +16,24 @@ class pinchitapp extends Component {
     _renderScreen(route, navigator){
       var globalNavigatorProps = { navigator }
 
-      console.log(route.ident)
-
       switch(route.ident){
         case 'TitleScreen':
           return (
             <TitleScreen
               { ...globalNavigatorProps } />
           )
+        case 'PostScreen':
+          if(route.post.index < 0){
+            return(
+              <Text> No More Post Available. (Under Development) </Text>
+            )
+          }else{
+            return(
+              <PostScreen
+                { ...globalNavigatorProps }
+                post = {route.post} />
+            )
+          }
         default:
           return (
             <Text>Wrong Route ${route.ident}</Text>
@@ -36,7 +47,10 @@ class pinchitapp extends Component {
           initialRoute = {{ident: 'TitleScreen'}}
           ref = 'appNavigator'
           style = {styles.NavigatorStyle}
-          renderScene = {this._renderScreen}/>
+          renderScene = {this._renderScreen}
+          configureScene={(route) => ({
+            ...route.sceneConfig || Navigator.SceneConfigs.PushFromRight })}
+          />
         )
     }
 }

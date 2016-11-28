@@ -24,7 +24,12 @@ class TitleScreen extends Component {
 
   _getInApp(){
     this.props.navigator.push({
-      ident: 'PersonShow'
+      ident: 'PostScreen',
+      post: {
+        title: 'Post 0',
+        index: 0
+      },
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottomAndroid
     })
   }
 }
