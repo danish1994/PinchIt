@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableHighlight, Alert, Navigator} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Alert, Navigator} from 'react-native'
 
 export default class Title extends Component {
   render() {
@@ -10,15 +10,15 @@ export default class Title extends Component {
         <Text style={styles.welcome}>
           PinchIt
         </Text>
-        <TouchableHighlight style={styles.button}
-          onPress={this.clickFucntion}>
+        <TouchableOpacity style={styles.button}
+          onPress={this._clickFucntion}>
           <Text style={styles.heading1}>Explore!</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     )
   }
 
-  clickFucntion(){
+  _clickFucntion(){
     Alert.alert(
       'PinchIt',
       'App Still Under Development',
@@ -27,17 +27,6 @@ export default class Title extends Component {
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]
     )
-
-    // fetch('http://localhost:8888/post/',{'method':'GET'})
-    // .then((response)=>response.json())
-    // .then((responseData)=>{
-    //   console.log(responseData)
-    //   Alert.alert(
-    //     'Alert Title',
-    //     JSON.stringify(responseData)
-    //   )
-    // })
-    // .done()
   }
 }
 

@@ -32,7 +32,7 @@ export default class Post extends Component {
               <TouchableHighlight style={styles.button} onPress={this.props.onBack}>
                 <Text style={styles.buttonText}>Back</Text>
               </TouchableHighlight>
-              <View style={{flex:1}} />
+              <View style={{flex:2}} />
               <TouchableHighlight style={styles.button} onPress={this.props.onForward}>
                 <Text style={styles.buttonText}>Next</Text>
               </TouchableHighlight>
