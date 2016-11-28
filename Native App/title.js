@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Alert,
-  Navigator
-} from 'react-native';
+'use strict'
+
+import React, {Component} from 'react'
+import {StyleSheet, Text, View, TouchableHighlight, Alert, Navigator} from 'react-native'
 
 export default class Title extends Component {
   render() {
@@ -43,7 +37,7 @@ export default class Title extends Component {
     //     JSON.stringify(responseData)
     //   )
     // })
-    // .done();
+    // .done()
   }
 }
 
@@ -75,4 +69,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems : 'center'
   }
-});
+})

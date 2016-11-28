@@ -1,31 +1,22 @@
 'use strict'
 
-import React, {
-    Component
-} from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    TouchableHighlight,
-    Alert,
-    Navigator
-} from 'react-native';
+import React, {Component} from 'react'
+import {AppRegistry, StyleSheet, Text, View, TouchableHighlight, Alert} from 'react-native'
 
 import Main from './main'
 import Title from './title'
 
-export default class pinchitapp extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showTitle: true
-        };
+import ViewContainer from './app/component/ViewContainer'
 
+class pinchitapp extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            showTitle: false
+        }
         // setInterval(() => {
-        //   this.setState({ showTitle: !this.state.showTitle });
-        // }, 1000);
+        //   this.setState({ showTitle: !this.state.showTitle })
+        // }, 1000)
     }
     render() {
         if (this.state.showTitle)
@@ -39,11 +30,14 @@ export default class pinchitapp extends Component {
                 <Text style={styles.heading1}>Explore!</Text>
               </TouchableHighlight>
             </View>
-          );
+          )
         else {
           return (
+            // <ViewContainer>
+            //   <Text>Hello From View container</Text>
+            // </ViewContainer>
             <Main />
-          );
+          )
         }
     }
 
@@ -57,7 +51,8 @@ export default class pinchitapp extends Component {
       //   ]
       // )
 
-      this.setState({ showTitle: false });
+      console.log(this)
+      // this.setState({ showTitle: false })
 
       // fetch('http://localhost:8888/post/',{'method':'GET'})
       // .then((response)=>response.json())
@@ -68,9 +63,8 @@ export default class pinchitapp extends Component {
       //     JSON.stringify(responseData)
       //   )
       // })
-      // .done();
+      // .done()
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -101,6 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems : 'center'
   }
-});
+})
 
-AppRegistry.registerComponent('pinchitapp', () => pinchitapp);
+AppRegistry.registerComponent('pinchitapp', () => pinchitapp)

@@ -1,24 +1,14 @@
-import React, {
-  Component,
-  PropTypes
- } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Alert,
-  Navigator,
-  Image
-} from 'react-native';
+'use strict'
 
+import React, {Component, PropTypes} from 'react'
+import {StyleSheet, Text, View, TouchableHighlight, Alert, Navigator,Image} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default class Post extends Component {
   static get defaultProps() {
     return {
       title: 'post'
-    };
+    }
   }
 
   render() {
@@ -38,10 +28,11 @@ export default class Post extends Component {
             <Text style={styles.post}>Aliquam convallis, ligula nec molestie interdum, tellus enim commodo mauris, sed bibendum ex elit a felis. Sed fringilla iaculis varius. Etiam arcu nibh, consequat at mattis eget, rutrum non elit. Nam at euismod turpis, mattis auctor nisi. Nam nec molestie ex. Sed eget dolor a ipsum egestas venenatis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor magna lacus.</Text>
           </View>
           <View style = {{flex: 1 , alignItems: 'stretch'}}>
-            <View style={{flexDirection : 'row', justifyContent: 'space-between',flex: 1 ,justifyContent: 'space-between',}}>
+            <View style={{flexDirection : 'row', justifyContent: 'space-between',flex: 1}}>
               <TouchableHighlight style={styles.button} onPress={this.props.onBack}>
                 <Text style={styles.buttonText}>Back</Text>
               </TouchableHighlight>
+              <View style={{flex:1}} />
               <TouchableHighlight style={styles.button} onPress={this.props.onForward}>
                 <Text style={styles.buttonText}>Next</Text>
               </TouchableHighlight>
@@ -57,7 +48,7 @@ Post.propTypes = {
   title: PropTypes.string.isRequired,
   onForward: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -90,4 +81,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf : 'stretch',
   }
-});
+})
