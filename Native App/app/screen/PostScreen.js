@@ -64,12 +64,6 @@ export default class PostScreen extends Component {
   }
 }
 
-// Post.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   onForward: PropTypes.func.isRequired,
-//   onBack: PropTypes.func.isRequired,
-// }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
