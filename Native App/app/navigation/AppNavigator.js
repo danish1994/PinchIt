@@ -10,6 +10,8 @@ import ViewContainer from '../component/ViewContainer'
 
 import LoadData from '../utility/LoadData'
 
+
+
 class AppNavigator extends Component {
     constructor(props) {
         super(props)
@@ -17,8 +19,6 @@ class AppNavigator extends Component {
 
     _renderScreen(route, navigator){
       var globalNavigatorProps = { navigator }
-
-      console.log(route.ident)
 
       switch(route.ident){
         case 'TitleScreen':

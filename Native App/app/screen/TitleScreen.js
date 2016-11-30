@@ -1,7 +1,9 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, Navigator} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Alert, Navigator, Button} from 'react-native'
+
+import ViewContainer from '../component/ViewContainer'
 
 class TitleScreen extends Component {
   constructor(props) {
@@ -10,15 +12,18 @@ class TitleScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          PinchIt
-        </Text>
-        <TouchableOpacity style={styles.button}
-           onPress={(event) => this._getInApp() }>
-          <Text style={styles.heading1}>Explore!</Text>
-        </TouchableOpacity>
-      </View>
+      <ViewContainer>
+        <View style={styles.container}>
+          <Text style={styles.welcome}>
+            PinchIt
+          </Text>
+          <Button
+            onPress = {(event) => this._getInApp()}
+            title = 'Explore'
+            style = {styles.button}
+          />
+        </View>
+      </ViewContainer>
     )
   }
 
@@ -36,10 +41,8 @@ class TitleScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#111111',
+    flex: 1
   },
   welcome: {
     fontSize: 50,
@@ -48,21 +51,13 @@ const styles = StyleSheet.create({
     color: '#eeeeee',
     height: 70
   },
-  heading1: {
-    textAlign: 'center',
-    color: '#bbbbbb',
-    fontSize: 30,
-    height: 50
-  },
   button: {
     height: 60,
-    flexDirection: 'row',
     backgroundColor: '#0000ff',
     alignSelf : 'stretch',
     justifyContent: 'center',
     alignItems : 'center',
-    marginLeft: 60,
-    marginRight: 60
+    fontSize: 30
   }
 })
 

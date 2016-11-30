@@ -1,8 +1,10 @@
 'use strict'
 
 import React, {Component, PropTypes} from 'react'
-import {StyleSheet, Text, View, TouchableHighlight, Alert, Navigator,Image} from 'react-native'
+import {StyleSheet, Text, View, TouchableHighlight, Alert, Navigator, Image, Button} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+
+import ViewContainer from '../component/ViewContainer'
 
 export default class PostScreen extends Component {
   constructor(props){
@@ -11,12 +13,12 @@ export default class PostScreen extends Component {
 
   render() {
     return (
-      <View style = {styles.container}>
+      <ViewContainer>
         <View style = {{flex: 1}}>
-        <Image
-          style={{width: 360, height: 300}}
-          source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
-        />
+          <Image
+            style={{width: 360, height: 300}}
+            source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+          />
         </View>
         <View style = {{flex: 1 , alignItems: 'stretch'}}>
           <View style = {{flex: 1 , alignItems: 'stretch'}}>
@@ -27,17 +29,21 @@ export default class PostScreen extends Component {
           </View>
           <View style = {{flex: 1 , alignItems: 'stretch'}}>
             <View style={{flexDirection : 'row', justifyContent: 'space-between',flex: 1}}>
-              <TouchableHighlight style={styles.button} onPress={(event) => this._previousPost() }>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableHighlight>
+              <Button
+                onPress = {(event) => this._previousPost()}
+                title = ' < '
+                style = {styles.button}
+              />
               <View style={{flex:2}} />
-              <TouchableHighlight style={styles.button} onPress={(event) => this._nextPost() }>
-                <Text style={styles.buttonText}>Next</Text>
-              </TouchableHighlight>
+              <Button
+                onPress = {(event) => this._nextPost()}
+                title = ' > '
+                style = {styles.button}
+              />
             </View>
           </View>
         </View>
-      </View>
+      </ViewContainer>
     )
   }
 
@@ -77,12 +83,10 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   button: {
-    flexDirection: 'row',
-    flex: 1,
+    flex: 2,
     backgroundColor: '#0000ff',
-    alignSelf : 'stretch',
     justifyContent: 'center',
-    alignItems : 'center',
+    alignItems : 'stretch',
   },
   buttonText:{
     textAlign: 'center',
