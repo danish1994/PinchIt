@@ -1,7 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {AppRegistry, DrawerLayoutAndroid} from 'react-native'
+import {AppRegistry, DrawerLayoutAndroid, Button} from 'react-native'
+
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware, combineReduxers, compose} from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
 
 import AppNavigator from './app/navigation/AppNavigator'
 
@@ -17,13 +22,19 @@ class pinchitapp extends Component {
 
     render() {
       var _renderDrawer = (
-        <AppNavigator
-          initialRoute = {{ident: 'NavigationDrawer'}}/>
+        <Button
+          onPress = {() => this.setState({selectedTab: 'PostScreen'},function(){
+            console.log(this.state)
+          })}
+          title = 'Explore'
+        />
+        // <AppNavigator
+        //   initialRoute = {{ident: 'NavigationDrawer'}}/>
       )
 
       return(
         <DrawerLayoutAndroid
-          drawerBackgroundColor="rgba(255,255,255,0.6)"
+          drawerBackgroundColor="rgba(0,0,0,0.6)"
           drawerWidth={300}
           drawerPosition={DrawerLayoutAndroid.positions.Left}
           renderNavigationView={() => _renderDrawer}>
