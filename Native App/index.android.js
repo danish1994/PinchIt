@@ -1,48 +1,35 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {AppRegistry, DrawerLayoutAndroid, Button} from 'react-native'
+import {AppRegistry} from 'react-native'
 
 import {Provider} from 'react-redux'
-import {createStore, applyMiddleware, combineReduxers, compose} from 'redux'
+import {createStore, applyMiddleware, combineReducers, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
-import AppNavigator from './app/navigation/AppNavigator'
+import reducer from './app/reducers'
 
-import ViewContainer from './app/component/ViewContainer'
+import AppContainer from './app/containers/AppContainer'
 
-class pinchitapp extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-          selectedTab: 'TitleScreen'
-        }
-    }
+const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  })
 
-    render() {
-      var _renderDrawer = (
-        <Button
-          onPress = {() => this.setState({selectedTab: 'PostScreen'},function(){
-            console.log(this.state)
-          })}
-          title = 'Explore'
-        />
-        // <AppNavigator
-        //   initialRoute = {{ident: 'NavigationDrawer'}}/>
-      )
-
-      return(
-        <DrawerLayoutAndroid
-          drawerBackgroundColor="rgba(0,0,0,0.6)"
-          drawerWidth={300}
-          drawerPosition={DrawerLayoutAndroid.positions.Left}
-          renderNavigationView={() => _renderDrawer}>
-          <AppNavigator
-            initialRoute = {{ident: this.state.selectedTab}}/>
-        </DrawerLayoutAndroid>
-        )
-    }
+function configureStore(initialState) {
+  const enhancer = compose(
+    applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+    )
+  )
+  return createStore(reducer, initialState, enhancer)
 }
 
-AppRegistry.registerComponent('pinchitapp', () => pinchitapp)
+const store = configureStore({});
+
+const App = () => (
+  <Provider store = {store}>
+    <AppContainer />
+  </Provider>
+)
+
+AppRegistry.registerComponent('pinchitapp', () => App)
