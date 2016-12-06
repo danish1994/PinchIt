@@ -1,11 +1,25 @@
 'use strict'
 
-import React, {Component, PropTypes} from 'react'
-import {Dimensions, StyleSheet, Text, View, TouchableHighlight, Image, Button} from 'react-native'
+import React, {
+  Component,
+  PropTypes
+} from 'react'
+
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  Image,
+  Button
+} from 'react-native'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
+
 import {connect} from 'react-redux'
 
-import ViewContainer from '../component/ViewContainer'
+import ViewContainer from '../containers/ViewContainer'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

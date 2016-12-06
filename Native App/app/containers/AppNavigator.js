@@ -1,16 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, Navigator} from 'react-native'
-import {connect} from 'react-redux'
+import { StyleSheet } from 'react-native'
+
+import { connect } from 'react-redux'
 
 import TitleScreen from '../screen/TitleScreen'
 import PostScreen from '../screen/PostScreen'
-
-import ViewContainer from '../component/ViewContainer'
-
-import LoadData from '../utility/LoadData'
-
 
 
 class AppNavigator extends Component {

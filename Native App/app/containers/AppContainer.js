@@ -1,15 +1,18 @@
 'use strict'
 
-import React, {Component} from 'react'
-import {DrawerLayoutAndroid, Button, Text, View} from 'react-native'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import React, { Component } from 'react'
+import {
+  DrawerLayoutAndroid,
+  Button,
+  View
+} from 'react-native'
 
-import {ActionCreators} from '../actions'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { ActionCreators } from '../actions'
 
 import AppNavigator from './AppNavigator'
-
-import ViewContainer from '../component/ViewContainer'
 
 class AppContainer extends Component {
     constructor(props) {

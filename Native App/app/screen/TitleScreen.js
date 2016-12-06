@@ -1,10 +1,22 @@
 'use strict'
 
-import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native'
+import React, { Component } from 'react'
+
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Button
+} from 'react-native'
+
 import {connect} from 'react-redux'
 
-import ViewContainer from '../component/ViewContainer'
+import ViewContainer from '../containers/ViewContainer'
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 class TitleScreen extends Component {
   constructor(props) {
@@ -17,7 +29,7 @@ class TitleScreen extends Component {
       <ViewContainer>
         <View style={styles.container}>
           <Text style={styles.welcome}>
-            PinchIt
+            Test App
           </Text>
           <Button
             onPress = {() => this.props.activeScreen('PostScreen')}
