@@ -1,10 +1,13 @@
 'use strict'
 
 import React, {Component, PropTypes} from 'react'
-import {StyleSheet, Text, View, TouchableHighlight, Alert, Navigator, Image, Button} from 'react-native'
+import {Dimensions, StyleSheet, Text, View, TouchableHighlight, Alert, Navigator, Image, Button} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import ViewContainer from '../component/ViewContainer'
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default class PostScreen extends Component {
   constructor(props){
@@ -80,7 +83,7 @@ const styles = StyleSheet.create({
   heading: {
     textAlign: 'left',
     color: '#bbbbbb',
-    fontSize: 25
+    fontSize: windowHeight/20
   },
   button: {
     flex: 2,
@@ -91,12 +94,12 @@ const styles = StyleSheet.create({
   buttonText:{
     textAlign: 'center',
     color: '#bbbbbb',
-    fontSize: 15
+    fontSize: windowHeight/30
   },
   post: {
     textAlign: 'left',
     color: '#bbbbbb',
-    fontSize: 18,
+    fontSize: windowHeight/30,
     alignSelf : 'stretch',
   },
   image: {
