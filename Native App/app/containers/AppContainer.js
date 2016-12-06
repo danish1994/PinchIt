@@ -7,12 +7,9 @@ import {bindActionCreators} from 'redux'
 
 import {ActionCreators} from '../actions'
 
-import AppNavigator from '../navigation/AppNavigator'
+import AppNavigator from './AppNavigator'
 
 import ViewContainer from '../component/ViewContainer'
-
-import Home from './Home'
-
 
 class AppContainer extends Component {
     constructor(props) {
@@ -20,14 +17,44 @@ class AppContainer extends Component {
     }
 
     render() {
+      var _renderDrawer = (
+        <View>
+          <Button
+            onPress = {() => this.props.activeScreen('TitleScreen')}
+            title = 'Home'
+          />
+          <Button
+            onPress = {() => this.props.activeScreen('PostScreen')}
+            title = 'Posts'
+          />
+          <Button
+            onPress = {() => this.props.activeScreen('AboutScreen')}
+            title = 'About Us'
+          />
+        </View>
+      )
+
       return(
-          <Home { ...this.props } />
+        <DrawerLayoutAndroid
+          drawerBackgroundColor="rgba(0,0,0,0.6)"
+          drawerWidth={300}
+          drawerPosition={DrawerLayoutAndroid.positions.Left}
+          renderNavigationView={() => _renderDrawer}>
+          <AppNavigator
+            { ...this.props } />
+        </DrawerLayoutAndroid>
         )
     }
+}
+
+function mapStateToProps(state){
+  return {
+    selectedScreen: state.selectedScreen
+  }
 }
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators(ActionCreators, dispatch)
 }
 
-export default connect((state) => { return {} }, mapDispatchToProps)(AppContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

@@ -1,7 +1,8 @@
 import * as types from './types'
 
-export function activeScreen(){
+export function activeScreen(key){
   return{
-    type: types.ACTIVE_SCREEN
+    type: types.ACTIVE_SCREEN,
+    key: key
   }
 }

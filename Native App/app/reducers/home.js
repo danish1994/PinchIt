@@ -1,8 +1,9 @@
 import createReducer from '../lib/createReducer'
 import * as types from '../actions/types'
 
-export const activeScreen = createReducer('TitleScreen',{
+export const selectedScreen = createReducer('TitleScreen',{
   [types.ACTIVE_SCREEN](state, action){
-    return 'PostScreen'
+    console.log(action)
+    return action.key
   }
 })

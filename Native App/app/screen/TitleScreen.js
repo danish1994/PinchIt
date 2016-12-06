@@ -1,7 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, Navigator, Button} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native'
+import {connect} from 'react-redux'
 
 import ViewContainer from '../component/ViewContainer'
 
@@ -11,6 +12,7 @@ class TitleScreen extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <ViewContainer>
         <View style={styles.container}>
@@ -18,24 +20,13 @@ class TitleScreen extends Component {
             PinchIt
           </Text>
           <Button
-            onPress = {(event) => this._getInApp()}
+            onPress = {() => this.props.activeScreen('PostScreen')}
             title = 'Explore'
             style = {styles.button}
           />
         </View>
       </ViewContainer>
     )
-  }
-
-  _getInApp(){
-    this.props.navigator.push({
-      ident: 'PostScreen',
-      post: {
-        title: 'Post 0',
-        index: 0
-      },
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottomAndroid
-    })
   }
 }
 
@@ -61,4 +52,11 @@ const styles = StyleSheet.create({
   }
 })
 
-module.exports = TitleScreen
+
+function mapStateToProps(state){
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps)(TitleScreen)
