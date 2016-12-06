@@ -24,7 +24,6 @@ class TitleScreen extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <ViewContainer>
         <View style={styles.container}>
@@ -33,6 +32,11 @@ class TitleScreen extends Component {
           </Text>
           <Button
             onPress = {() => this.props.activeScreen('PostScreen')}
+            title = 'Explore'
+            style = {styles.button}
+          />
+          <Button
+            onPress = {() => this.props.loadPosts()}
             title = 'Explore'
             style = {styles.button}
           />
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   welcome: {
-    fontSize: 50,
+    fontSize: windowHeight/15,
     textAlign: 'center',
     margin: 10,
     color: '#eeeeee',
