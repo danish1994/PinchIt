@@ -16,7 +16,7 @@ export default class PostScreen extends Component {
       <ViewContainer>
         <View style = {{flex: 1}}>
           <Image
-            style={{width: 360, height: 300}}
+            style={styles.image}
             source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
           />
         </View>
@@ -98,6 +98,10 @@ const styles = StyleSheet.create({
     color: '#bbbbbb',
     fontSize: 18,
     alignSelf : 'stretch',
+  },
+  image: {
+    resizeMode: 'stretch',
+    flex: 1
   }
 })
 
