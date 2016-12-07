@@ -34,6 +34,10 @@ class AppContainer extends Component {
             onPress = {() => this._activeScreen('AboutScreen')}
             title = 'About Us'
           />
+          <Button
+            onPress = {() => this._activeScreen('ThemeScreen')}
+            title = 'Themes'
+          />
         </View>
       )
 

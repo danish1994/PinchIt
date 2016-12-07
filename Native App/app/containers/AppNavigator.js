@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import AboutScreen from '../screen/AboutScreen'
 import TitleScreen from '../screen/TitleScreen'
 import PostScreen from '../screen/PostScreen'
+import ThemeScreen from '../screen/ThemeScreen'
 
 
 class AppNavigator extends Component {
@@ -20,6 +21,7 @@ class AppNavigator extends Component {
       if (this.props.selectedScreen === 'TitleScreen') { Scene = TitleScreen }
       if (this.props.selectedScreen === 'PostScreen') { Scene = PostScreen }
       if (this.props.selectedScreen === 'AboutScreen') { Scene = AboutScreen }
+      if (this.props.selectedScreen === 'ThemeScreen') { Scene = ThemeScreen }
 
       return(
         <Scene {...this.props} />
