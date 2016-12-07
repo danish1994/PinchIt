@@ -32,7 +32,7 @@ class PostScreen extends Component {
   render() {
     return (
       <ViewContainer>
-        <View style = {{flex: 1}}>
+        <View style = {styles.container}>
           <Image
             style={styles.image}
             source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
@@ -40,10 +40,10 @@ class PostScreen extends Component {
         </View>
         <View style = {{flex: 1 , alignItems: 'stretch'}}>
           <View style = {{flex: 1 , alignItems: 'stretch'}}>
-            <Text style={styles.heading}>Title</Text>
+            <Text style={[styles.heading, this.props.theme]}>Title</Text>
           </View>
           <View style = {{flex: 4 , alignItems: 'stretch'}}>
-            <Text style={styles.post}>Aliquam convallis, ligula nec molestie interdum, tellus enim commodo mauris, sed bibendum ex elit a felis. Sed fringilla iaculis varius. Etiam arcu nibh, consequat at mattis eget, rutrum non elit. Nam at euismod turpis, mattis auctor nisi. Nam nec molestie ex. Sed eget dolor a ipsum egestas venenatis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor magna lacus.</Text>
+            <Text style={[styles.post, this.props.theme]}>Aliquam convallis, ligula nec molestie interdum, tellus enim commodo mauris, sed bibendum ex elit a felis. Sed fringilla iaculis varius. Etiam arcu nibh, consequat at mattis eget, rutrum non elit. Nam at euismod turpis, mattis auctor nisi. Nam nec molestie ex. Sed eget dolor a ipsum egestas venenatis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor magna lacus.</Text>
           </View>
           <View style = {{flex: 1 , alignItems: 'stretch'}}>
             <View style={{flexDirection : 'row', justifyContent: 'space-between',flex: 1}}>
@@ -79,27 +79,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: '#111111',
   },
   heading: {
     textAlign: 'left',
-    color: '#bbbbbb',
     fontSize: windowHeight/20
   },
   button: {
     flex: 2,
-    backgroundColor: '#0000ff',
     justifyContent: 'center',
     alignItems : 'stretch',
   },
   buttonText:{
     textAlign: 'center',
-    color: '#bbbbbb',
     fontSize: windowHeight/30
   },
   post: {
     textAlign: 'left',
-    color: '#bbbbbb',
     fontSize: windowHeight/30,
     alignSelf : 'stretch',
   },
@@ -111,7 +106,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-
+      theme: state.theme
   }
 }
 

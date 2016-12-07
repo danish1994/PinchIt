@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 class ViewContainer extends Component {
   render() {
     return (
-      <View style={styles.ViewContainer}>
+      <View style={[styles.ViewContainer, {backgroundColor: this.props.theme.backgroundColor}]}>
         {this.props.children}
       </View>
     )
@@ -23,14 +23,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'stretch',
-    backgroundColor: '#111111'
+    alignItems: 'stretch'
   }
 })
 
 function mapStateToProps(state){
   return {
-
+    theme: state.theme
   }
 }
 

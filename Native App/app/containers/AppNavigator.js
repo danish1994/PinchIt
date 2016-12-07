@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-
+    theme: state.theme
   }
 }
 

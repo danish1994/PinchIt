@@ -27,7 +27,7 @@ class TitleScreen extends Component {
     return (
       <ViewContainer>
         <View style={styles.container}>
-          <Text style={styles.welcome}>
+          <Text style={[styles.welcome, this.props.theme]}>
             Test App
           </Text>
           <Button
@@ -36,8 +36,8 @@ class TitleScreen extends Component {
             style = {styles.button}
           />
           <Button
-            onPress = {() => this.props.loadPosts()}
-            title = 'Explore'
+            onPress = {() => this.props.setTheme('light')}
+            title = 'Load Posts'
             style = {styles.button}
           />
         </View>
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     fontSize: windowHeight/15,
     textAlign: 'center',
     margin: 10,
-    color: '#eeeeee',
     height: 70
   },
   button: {
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-
+    theme: state.theme
   }
 }
 

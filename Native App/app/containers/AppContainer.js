@@ -23,36 +23,45 @@ class AppContainer extends Component {
       var _renderDrawer = (
         <View>
           <Button
-            onPress = {() => this.props.activeScreen('TitleScreen')}
+            onPress = {() => this._activeScreen('TitleScreen')}
             title = 'Home'
           />
           <Button
-            onPress = {() => this.props.activeScreen('PostScreen')}
+            onPress = {() => this._activeScreen('PostScreen')}
             title = 'Posts'
           />
           <Button
-            onPress = {() => this.props.activeScreen('AboutScreen')}
+            onPress = {() => this._activeScreen('AboutScreen')}
             title = 'About Us'
           />
         </View>
       )
 
+
       return(
         <DrawerLayoutAndroid
-          drawerBackgroundColor="rgba(0,0,0,0.6)"
+          drawerBackgroundColor= {this.props.drawerTheme}
           drawerWidth={300}
-          drawerPosition={DrawerLayoutAndroid.positions.Left}
-          renderNavigationView={() => _renderDrawer}>
+          drawerPosition={ DrawerLayoutAndroid.positions.Left }
+          renderNavigationView={() => _renderDrawer}
+          ref={'drawer'}>
           <AppNavigator
             { ...this.props } />
         </DrawerLayoutAndroid>
         )
     }
+
+    _activeScreen(key){
+      this.props.activeScreen(key)
+      this.refs['drawer'].closeDrawer(0)
+
+    }
 }
 
 function mapStateToProps(state){
   return {
-    selectedScreen: state.selectedScreen
+    selectedScreen: state.selectedScreen,
+    drawerTheme: state.drawerTheme
   }
 }
 
