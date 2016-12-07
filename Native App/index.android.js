@@ -11,6 +11,8 @@ import {
   compose
 } from 'redux'
 
+import { loadState, saveState } from './app/lib/localStorage'
+
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 
@@ -30,7 +32,11 @@ function configureStore(initialState) {
   return createStore(reducer, initialState, enhancer)
 }
 
-const store = configureStore({});
+const store = configureStore(loadState());
+
+store.subscribe(() => {
+  saveState(store.getState())
+})
 
 const App = () => (
   <Provider store = {store}>
