@@ -30,6 +30,10 @@ function post() {
                 primaryKey: true,
                 autoIncrement: true
             },
+            title: {
+                type: sequalize.STRING,
+                allowNull: false
+            },
             post: {
                 type: sequalize.STRING,
                 allowNull: false
@@ -117,7 +121,6 @@ function post() {
 
     this.get = function(record, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
             offset: record.offset,
             limit: record.limit,
             order: [
@@ -153,7 +156,6 @@ function post() {
 
     this.getPost = function(recordId, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
             order: [
                 ['createdAt', 'DESC']
             ],
@@ -187,7 +189,6 @@ function post() {
 
     this.getAll = function(record, response) {
         this.post.findAll({
-            attributes: ['postid', 'post', 'image', 'adminid', 'categoryid', 'subcategoryid', 'writerid', 'verified', 'updatedAt', 'createdAt'],
             limit: record.limit,
             offset: record.offset,
             order: [
@@ -231,6 +232,7 @@ function post() {
                 if (writer) {
                     if (writer.dataValues.verified) {
                         parent.post.create({
+                            title: record.title,
                             post: record.post,
                             image: record.image,
                             categoryid: record.category,
