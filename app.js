@@ -7,7 +7,7 @@ var setup = require('./setup')
 var mkdirp = require('mkdirp')
 var app = express()
 var ip = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
-var port = process.env.OPENSHIFT_NODEJS_PORT || 8888
+var port = process.env.PORT || 8888
 
 
 connection.init()
@@ -32,6 +32,6 @@ app.use(bodyparser.urlencoded({
 
 routes.configure(app)
 
-app.listen(port, ip, function() {
+app.listen(port, function() {
     console.log('Server listening on port ' + port);
 })
