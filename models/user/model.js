@@ -104,7 +104,6 @@ function user() {
 
     this.getUserImage = function(recordId, response) {
         try {
-            console.log(recordId)
             token = jwt.verify(recordId, jwtsecret)
             this.user.find({
                 attributes: ['photo'],
@@ -145,6 +144,7 @@ function user() {
     }
 
     this.post = function(record, response) {
+        console.log(record)
         hash = crypto.createHmac('sha256', secret)
             .update(record.pswd)
             .digest('hex')
@@ -355,6 +355,7 @@ function user() {
     }
 
     this.login = function(record, response) {
+        console.log(record)
         this.user.find({
             attributes: ['userid', 'pswd'],
             where: {
