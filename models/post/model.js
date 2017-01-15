@@ -2,6 +2,9 @@ var connection = require('../../connection')
 var fs = require('fs')
 var jwt = require('jsonwebtoken')
 const jwtsecret = '7fchy5GCHGHJGYYC'
+const secret = 'jcjudr4yjj888HGCFC'
+var crypto = require('crypto')
+
 
 function post() {
 
@@ -231,10 +234,26 @@ function post() {
             }).then(function(writer) {
                 if (writer) {
                     if (writer.dataValues.verified) {
+                        var imageName = null
+                        if(record.image){
+                            imageName = new Date().toISOString() + record.title + writer.writerid
+                            imageName = crypto.createHmac('sha256', secret)
+                            .update(imageName)
+                            .digest('hex')
+
+                            imageName = 'public/img/posts/' + imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
+
+                            var image = record.imageData.replace(/\s/g, '+')
+                            fs.writeFile(imageName, image, 'base64', function(error) {
+                                if (error) {
+                                    return console.error(error);
+                                }
+                            })
+                        }
                         parent.post.create({
                             title: record.title,
                             post: record.post,
-                            image: record.image,
+                            image: imageName,
                             categoryid: record.category,
                             subcategoryid: record.subcategory,
                             writerid: writer.dataValues.writerid,
