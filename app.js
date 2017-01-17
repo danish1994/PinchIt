@@ -8,11 +8,13 @@ var mkdirp = require('mkdirp')
 var app = express()
 var port = process.env.PORT || 8888
 
+var nodeadmin = require('nodeadmin')
+
 
 connection.init()
 setup()
 
-app.use("/public", express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static(path.join(__dirname, 'public')))
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
@@ -30,6 +32,9 @@ app.use(bodyparser.urlencoded({
     extended: true,
     parameterLimit: 500000
 }))
+
+//Node Admin
+app.use(nodeadmin(app))
 
 routes.configure(app)
 
