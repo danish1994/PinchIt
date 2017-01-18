@@ -14,14 +14,14 @@ var nodeadmin = require('nodeadmin')
 connection.init()
 setup()
 
-app.use("/public", express.static(path.join(__dirname, 'public')))
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     next()
 })
+
+app.use("/public", express.static(path.join(__dirname, 'public')))
 
 app.use(bodyparser.json({
     limit: '100mb'

@@ -244,11 +244,11 @@ function post() {
                             imageName = 'public/img/posts/' + imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
 
                             var image = record.imageData.replace(/\s/g, '+')
-                            fs.writeFile(imageName, image, 'base64', function(error) {
-                                if (error) {
-                                    return console.error(error);
-                                }
-                            })
+                            // fs.writeFile(imageName, image, 'base64', function(error) {
+                            //     if (error) {
+                            //         return console.error(error);
+                            //     }
+                            // })
                         }
                         parent.post.create({
                             title: record.title,
