@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 $.ajax({
 	type: 'GET',
-	url: 'https://salty-cove-91712.herokuapp.com/subcategory/',
+	url: '/subcategory/',
 	success: function(res){
 		console.log(res)
 	},
@@ -31,7 +31,7 @@ function postShow(){
 	$('#loading-modal').modal('show')
 	$.ajax({
 		type: 'GET',
-		url: 'https://salty-cove-91712.herokuapp.com/category/',
+		url: '/category/',
 		success: function(res){
 			console.log(res)
 			$('#post').show()
@@ -52,7 +52,7 @@ $('#login-form').submit(function(event){
 
 	$.ajax({
 		type: 'POST',
-		url: 'https://salty-cove-91712.herokuapp.com/writer/login/',
+		url: '/writer/login/',
 		data: query,
 		success: function(res){
 			console.log(res)
@@ -84,7 +84,7 @@ $('#post-form').submit(function(event){
 
 	$.ajax({
 		type: 'POST',
-		url: 'https://salty-cove-91712.herokuapp.com/post/',
+		url: '/post/',
 		data: {
 			token: token,
 			title: title,
