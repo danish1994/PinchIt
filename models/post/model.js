@@ -8,10 +8,10 @@ var crypto = require('crypto')
 var cloudinary = require('cloudinary')
 
 cloudinary.config({ 
-  cloud_name: 'djhz8v2ek', 
-  api_key: '166764358323359', 
-  api_secret: '7gfkXniPJ954Hfzfoty2LwknQAs' 
-})
+  cloud_name: 'sample', 
+  api_key: '874837483274837', 
+  api_secret: 'a676b67565c6767a6767d6767f676fe1' 
+});
 
 
 function post() {
@@ -241,49 +241,26 @@ function post() {
                 }
             }).then(function(writer) {
                 if (writer) {
-                    if (writer.dataValues.verified) {
-                        console.log(record.image)
-                        cloudinary.uploader.upload(record.image, function(result){
-                            parent.post.create({
-                                title: record.title,
-                                post: record.post,
-                                image: record.image,
-                                categoryid: record.category,
-                                subcategoryid: record.subcategory,
-                                writerid: writer.dataValues.writerid,
-                                verified: false
-                            }).then(function(post) {
-                                response.send({
-                                    status: 0,
-                                    message: 'Post Added.'
-                                })
-                            }).catch(function(error) {
-                                response.send({
-                                    status: 1,
-                                    message: error
-                                })
+                    if (writer.dataValues.verified) { 
+                        parent.post.create({
+                            title: record.title,
+                            post: record.post,
+                            image: record.image,
+                            categoryid: record.category,
+                            subcategoryid: record.subcategory,
+                            writerid: writer.dataValues.writerid,
+                            verified: false
+                        }).then(function(post) {
+                            response.send({
+                                status: 0,
+                                message: 'Post Added.'
                             })
-                        });
-
-                        // parent.post.create({
-                        //     title: record.title,
-                        //     post: record.post,
-                        //     image: record.image,
-                        //     categoryid: record.category,
-                        //     subcategoryid: record.subcategory,
-                        //     writerid: writer.dataValues.writerid,
-                        //     verified: false
-                        // }).then(function(post) {
-                        //     response.send({
-                        //         status: 0,
-                        //         message: 'Post Added.'
-                        //     })
-                        // }).catch(function(error) {
-                        //     response.send({
-                        //         status: 1,
-                        //         message: error
-                        //     })
-                        // })
+                        }).catch(function(error) {
+                            response.send({
+                                status: 1,
+                                message: error
+                            })
+                        })
                     } else
                         response.send({
                             status: 2,
@@ -304,8 +281,7 @@ function post() {
             else
                 response.send({
                     status: 4,
-                    message: 'Authentication Failed',
-                    error: error
+                    message: 'Authentication Failed'
                 })
         }
     }

@@ -6,7 +6,7 @@ var routes = require('./routes')
 var setup = require('./setup')
 var mkdirp = require('mkdirp')
 var app = express()
-var port = process.env.PORT || 80
+var port = process.env.PORT || 8888
 
 var nodeadmin = require('nodeadmin')
 
@@ -21,7 +21,8 @@ app.use(function(req, res, next) {
     next()
 })
 
-app.use("/public", express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public/writer')))
+app.use(express.static(path.join(__dirname, 'public/img')))
 
 app.use(bodyparser.json({
     limit: '100mb'
