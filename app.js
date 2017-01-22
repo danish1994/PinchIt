@@ -6,7 +6,7 @@ var routes = require('./routes')
 var setup = require('./setup')
 var mkdirp = require('mkdirp')
 var app = express()
-var port = process.env.PORT || 8888
+var port = process.env.PORT || 80
 
 var nodeadmin = require('nodeadmin')
 
