@@ -5,10 +5,12 @@ var image
 
 
 $(document).ready(function() {
+	$('#loading-modal').modal('show')
 	$('#login').hide()
 	$('#post').hide()
 	token = localStorage.getItem('token')
 	if(token){
+		$('#loading-modal').modal('hide')
 		postShow()	
 	}else{
 		$('#login').show()
@@ -28,7 +30,6 @@ $.ajax({
 })
 
 function postShow(){
-	$('#loading-modal').modal('show')
 	$.ajax({
 		type: 'GET',
 		url: '/category/',
