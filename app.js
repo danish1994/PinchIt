@@ -6,7 +6,9 @@ var routes = require('./routes')
 var setup = require('./setup')
 var mkdirp = require('mkdirp')
 var app = express()
-var port = process.env.PORT || 8888
+
+var ip = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
+var port = process.env.OPENSHIFT_NODEJS_PORT || 8088
 
 var nodeadmin = require('nodeadmin')
 
@@ -40,6 +42,6 @@ app.use(nodeadmin(app))
 
 routes.configure(app)
 
-app.listen(port, function() {
+app.listen(port, ip, function() {
     console.log('Server listening on port ' + port);
 })
