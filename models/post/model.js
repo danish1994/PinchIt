@@ -304,7 +304,8 @@ function post() {
             else
                 response.send({
                     status: 4,
-                    message: 'Authentication Failed'
+                    message: 'Authentication Failed',
+                    error: error
                 })
         }
     }
