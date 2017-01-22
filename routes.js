@@ -21,11 +21,11 @@ module.exports = {
     configure: function(service) {
 
 
+        service.get('/', function(request, response) {
+            response.sendFile(path.join(__dirname, 'public/website/index.html'))
+        })
+
         service.get('/writePost', function(request, response) {
-            // response.send({
-            //     status: 0,
-            //     message: 'Hello API'
-            // })
             response.sendFile(path.join(__dirname, 'public/writer/index.html'))
         })
 
