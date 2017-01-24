@@ -236,24 +236,24 @@ function post() {
                     if (writer.dataValues.verified) {
                         var imageName = null
                         if(record.image){
-                            imageName = new Date().toISOString() + record.title + writer.writerid
-                            imageName = crypto.createHmac('sha256', secret)
-                            .update(imageName)
-                            .digest('hex')
+                            // imageName = new Date().toISOString() + record.title + writer.writerid
+                            // imageName = crypto.createHmac('sha256', secret)
+                            // .update(imageName)
+                            // .digest('hex')
 
-                            imageName = 'public/img/posts/' + imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
+                            // imageName = 'public/img/posts/' + imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
 
-                            var image = record.imageData.replace(/\s/g, '+')
-                            fs.writeFile(imageName, image, 'base64', function(error) {
-                                if (error) {
-                                    return console.error(error);
-                                }
-                            })
+                            // var image = record.imageData.replace(/\s/g, '+')
+                            // fs.writeFile(imageName, image, 'base64', function(error) {
+                            //     if (error) {
+                            //         return console.error(error);
+                            //     }
+                            // })
                         }
                         parent.post.create({
                             title: record.title,
                             post: record.post,
-                            image: imageName,
+                            image: '',
                             categoryid: record.category,
                             subcategoryid: record.subcategory,
                             writerid: writer.dataValues.writerid,
