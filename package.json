@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "MYSQL_HOST=sql6.freemysqlhosting.net MYSQL_PORT=3306 MYSQL_DATABASE=sql6151793 MYSQL_USER=sql6151793 MYSQL_PASSWORD=vnfcfXx4rC node app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
