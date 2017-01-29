@@ -6,17 +6,41 @@ var image
 
 $(document).ready(function() {
 	$('#loading-modal').modal('show')
-	$('#login').hide()
-	$('#post').hide()
+	loginHide()
+	postHide()
 	token = localStorage.getItem('token')
 	if(token){
-		$('#loading-modal').modal('hide')
 		postShow()	
 	}else{
+		$('#loading-modal').modal('hide')
 		$('#login').show()
 	}
 })
 
+
+function loginHide(){
+	$('#login').hide()
+}
+
+function postHide(){
+	$('#post').hide()
+	$('#logout').hide()
+}
+
+function postShow(){
+	$.ajax({
+		type: 'GET',
+		url: '/category/',
+		success: function(res){
+			$('#post').show()
+			$('#logout').show()
+			$('#loading-modal').modal('hide')
+		},
+		error: function(err){
+			console.log(err)
+		}
+	})
+}
 
 $.ajax({
 	type: 'GET',
@@ -29,20 +53,7 @@ $.ajax({
 	}
 })
 
-function postShow(){
-	$.ajax({
-		type: 'GET',
-		url: '/category/',
-		success: function(res){
-			console.log(res)
-			$('#post').show()
-			$('#loading-modal').modal('hide')
-		},
-		error: function(err){
-			console.log(err)
-		}
-	})
-}
+
 
 
 $('#login-form').submit(function(event){
@@ -60,8 +71,8 @@ $('#login-form').submit(function(event){
 			if(res.status == 0){
 				token = res.message.token
 				localStorage.setItem('token', token)
-				$('#login').hide()
-				$('#post').show()
+				loginHide()
+				postShow()
 				$('#loading-modal').modal('hide')
 			}else{
 				$('#loading-modal').modal('hide')
@@ -110,6 +121,11 @@ $('#post-form').submit(function(event){
 		}
     })
 
+})
+
+$('#logout').click(function(){
+	localStorage.removeItem('token')
+	location.reload()
 })
 
 function readFile() {
