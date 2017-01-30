@@ -146,12 +146,6 @@ function post() {
                 verified: true
             }
         }).then(function(posts) {
-            for (var i = 0; i < posts.length; i++) {
-                if (posts[i].dataValues.image) {
-                    image = fs.readFileSync(posts[i].dataValues.image)
-                    posts[i].dataValues.image = image.toString('base64')
-                }    
-            }
             response.send(posts)
         }).catch(function(error) {
             console.log
@@ -185,10 +179,6 @@ function post() {
                 postid: recordId
             }
         }).then(function(post) {
-            if (post[0].dataValues.image) {
-                image = fs.readFileSync(post[0].dataValues.image)
-                post[0].dataValues.image = image.toString('base64')
-            }
             response.send(post)
         }).catch(function(error) {
             response.send({
@@ -221,12 +211,6 @@ function post() {
                 attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
             }]
         }).then(function(posts) {
-            for (var i = 0; i < posts.length; i++) {
-                if (posts[i].dataValues.image) {
-                    image = fs.readFileSync(posts[i].dataValues.image)
-                    posts[i].dataValues.image = image.toString('base64')
-                }
-            }
             response.send(posts)
         }).catch(function(error) {
             response.send({
@@ -257,10 +241,12 @@ function post() {
                             .update(imageName)
                             .digest('hex')
 
-                            imageName = 'public/img/posts/' + imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
+                            imageName = imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
 
-                            var image = record.imageData.replace(/\s/g, '+')
-                            fs.writeFile(imageName, image, 'base64', function(error) {
+                            imagePath = 'public/img/posts/' + imageName
+
+                            var image = record.imageData.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpg;base64,/, "")
+                            fs.writeFile(imagePath, image, 'base64', function(error) {
                                 if (error) {
                                     return console.error(error);
                                 }
