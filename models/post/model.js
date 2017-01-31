@@ -6,6 +6,21 @@ const secret = 'jcjudr4yjj888HGCFC'
 var crypto = require('crypto')
 
 
+var s3 = require('s3');
+ 
+var client = s3.createClient({
+    maxAsyncS3: 20,     // this is the default 
+    s3RetryCount: 3,    // this is the default 
+    s3RetryDelay: 1000, // this is the default 
+    multipartUploadThreshold: 20971520, // this is the default (20 MB) 
+    multipartUploadSize: 15728640, // this is the default (15 MB) 
+    s3Options: {
+        accessKeyId: "AKIAICF55LTRN4M2NU5Q",
+        secretAccessKey: "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",
+        region: 'us-west-2'
+    },
+})
+
 function post() {
 
     this.conn = null
@@ -235,6 +250,7 @@ function post() {
                 if (writer) {
                     if (writer.dataValues.verified) {
                         var imageName = null
+                        var bucket = 'www.pinched.in'
                         if(record.image){
                             imageName = new Date().toISOString() + record.title + writer.writerid
                             imageName = crypto.createHmac('sha256', secret)
@@ -246,16 +262,44 @@ function post() {
                             imagePath = 'public/img/posts/' + imageName
 
                             var image = record.imageData.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpg;base64,/, "")
+                            
+
                             fs.writeFile(imagePath, image, 'base64', function(error) {
                                 if (error) {
                                     return console.error(error);
+                                }else{
+                                    var params = {
+                                        localFile: imagePath,
+
+                                        s3Params: {
+                                            Bucket: bucket,
+                                            Key: 'post/' + imageName,
+                                            ACL: 'public-read'
+                                        },
+                                    }
+
+                                    var uploader = client.uploadFile(params)
+
+                                    uploader.on('error', function(err) {
+                                        console.error("unable to upload:", err.stack)
+                                    })
+
+                                    // uploader.on('progress', function() {
+                                    //     console.log("progress", uploader.progressMd5Amount,
+                                    //         uploader.progressAmount, uploader.progressTotal)
+                                    // })
+
+                                    uploader.on('end', function() {
+                                        console.log("done uploading")
+                                    })
                                 }
                             })
+                            
                         }
                         parent.post.create({
                             title: record.title,
                             post: record.post,
-                            image: imageName,
+                            image: s3.getPublicUrlHttp(bucket, 'post/' + imageName ,'us-west-2'),
                             categoryid: record.category,
                             subcategoryid: record.subcategory,
                             writerid: writer.dataValues.writerid,
