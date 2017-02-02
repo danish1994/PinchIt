@@ -26,6 +26,7 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, 'public/img/posts')))
 app.use(express.static(path.join(__dirname, 'public/website')))
 app.use(express.static(path.join(__dirname, 'public/writer')))
+app.use(express.static(path.join(__dirname, 'public/admin')))
 
 app.use(bodyparser.json({
     limit: '100mb'

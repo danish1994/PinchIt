@@ -1,5 +1,5 @@
 'use-strict'
-var token
+var writer_token
 var imageData
 var image
 
@@ -8,8 +8,8 @@ $(document).ready(function() {
 	$('#loading-modal').modal('show')
 	loginHide()
 	postHide()
-	token = localStorage.getItem('token')
-	if(token){
+	writer_token = localStorage.getItem('writer_token')
+	if(writer_token){
 		postShow()	
 	}else{
 		$('#loading-modal').modal('hide')
@@ -56,7 +56,7 @@ $.ajax({
 
 
 
-$('#login-form').submit(function(event){
+$('#writer-login-form').submit(function(event){
 	event.preventDefault()
 	var query = $(this).serialize()
 
@@ -69,8 +69,8 @@ $('#login-form').submit(function(event){
 		success: function(res){
 			console.log(res)
 			if(res.status == 0){
-				token = res.message.token
-				localStorage.setItem('token', token)
+				writer_token = res.message.token
+				localStorage.setItem('writer_token', writer_token)
 				loginHide()
 				postShow()
 				$('#loading-modal').modal('hide')
@@ -98,7 +98,7 @@ $('#post-form').submit(function(event){
 		type: 'POST',
 		url: '/post/',
 		data: {
-			token: token,
+			token: writer_token,
 			title: title,
 			image: image,
 			imageData: imageData,
@@ -124,7 +124,7 @@ $('#post-form').submit(function(event){
 })
 
 $('#logout').click(function(){
-	localStorage.removeItem('token')
+	localStorage.removeItem('writer_token')
 	location.reload()
 })
 

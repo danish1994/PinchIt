@@ -3,8 +3,17 @@ var post = require('./model')
 function post_routes() {
 
     this.route = function(service) {
+
+        service.delete('/post/:id', function(request, response) {
+            post.delete(request.params.id, response)
+        })
+
         service.get('/post/getAll/', function(request, response) {
             post.getAll(request.body, response)
+        })
+
+        service.get('/post/unverified/', function(request, response) {
+            post.getUnverified(request.body, response)
         })
 
         service.get('/post/:id', function(request, response) {

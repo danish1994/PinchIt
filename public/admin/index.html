@@ -3,13 +3,13 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>PinchIt Writer</title>
+		<title>PinchIt Admin</title>
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		
-		<link rel="stylesheet" href="writer-style.css" >
+		<link rel="stylesheet" href="admin-style.css" >
 		<style>
 			.loader {
 			    border: 16px solid #f3f3f3; /* Light grey */
@@ -81,12 +81,12 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="row">
-								<form class="form-inline" id="writer-login-form">
+								<form class="form-inline" id="admin-login-form">
 									<legend>Login</legend>
 									<div class="col-sm-12">
 										<div class="row">
 											<div class="col-sm-2">
-												<label>Writer Id</label>
+												<label>Admin Id</label>
 											</div>
 											<div class="col-sm-10">
 												<input type="text" name="email" class="form-control full-width" required>
@@ -112,46 +112,14 @@
 					</div>
 				</div>
 
-				<div class="col-sm-8 col-sm-offset-2" id="post">
+				<div class="col-sm-8 col-sm-offset-2" id="admin">
 					<div class="row">
+						<legend>
+							Unverified Posts
+						</legend>
 						<div class="col-sm-12">
-							<div class="row">
-								<form class="form-inline" id="post-form">
-									<legend>Post</legend>
-									<div class="col-sm-12">
-										<div class="row">
-											<div class="col-sm-2">
-												<label>Image</label>
-											</div>
-											<div class="col-sm-10">
-												<input type="file" id="post-image" name="image" class="form-control full-width" required>
-											</div>
-										</div>
-									</div>	
-									<div class="col-sm-12">
-										<div class="row">
-											<div class="col-sm-2">
-												<label>Title</label>
-											</div>
-											<div class="col-sm-10">
-												<input type="text" id="post-title" name="title" class="form-control full-width" required>
-											</div>
-										</div>
-									</div>	
-									<div class="col-sm-12">
-										<div class="row">
-											<div class="col-sm-2">
-												<label>Desc</label>
-											</div>
-											<div class="col-sm-10">
-												<textarea rows="4" cols="50" id="post-data" class="form-control full-width" required></textarea>
-											</div>
-										</div>
-									</div>	
-									<div class="col-sm-12">
-										<input type="submit" value="Submit" class="btn btn-default full-width">
-									</div>
-								</form>
+							<div class="row" id="post-container">
+
 							</div>
 						</div>
 					</div>
@@ -163,6 +131,6 @@
 
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-		<script src="writer-script.js"></script>
+		<script src="admin-script.js"></script>
 	</body>
 </html>

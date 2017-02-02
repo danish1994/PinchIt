@@ -8,14 +8,6 @@ var writer_routes = require('./models/writer/routes')
 
 var path = require('path')
 
-var cloudinary = require('cloudinary')
-
-cloudinary.config({ 
-  cloud_name: 'djhz8v2ek', 
-  api_key: '166764358323359', 
-  api_secret: '7gfkXniPJ954Hfzfoty2LwknQAs' 
-})
-
 
 module.exports = {
     configure: function(service) {
@@ -29,13 +21,9 @@ module.exports = {
             response.sendFile(path.join(__dirname, 'public/writer/index.html'))
         })
 
-        service.post('/image/', function(request, response){
-            console.log(request.body)
-            cloudinary.uploader.upload(request.body, function(result) {
-                response.send(result)
-            })
+        service.get('/adminControl', function(request, response) {
+            response.sendFile(path.join(__dirname, 'public/admin/index.html'))
         })
-
 
         //Admin Routes
         admin_routes.route(service)

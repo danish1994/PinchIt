@@ -171,6 +171,41 @@ function post() {
         })
     }
 
+    this.getUnverified = function(record, response) {
+        this.post.findAll({
+            offset: record.offset,
+            limit: record.limit,
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            include: [{
+                model: this.category,
+                as: 'category',
+                attributes: ['categoryid', 'category']
+            }, {
+                model: this.subcategory,
+                as: 'subcategory',
+                attributes: ['subcategoryid', 'subcategory']
+            }, {
+                model: this.writer,
+                as: 'writer',
+                attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
+            }],
+            where: {
+                verified: false
+            }
+        }).then(function(posts) {
+            response.send(posts)
+        }).catch(function(error) {
+            console.log
+            response.send({
+                status: 1,
+                message: error
+            })
+        })
+    }
+
+
 
     this.getPost = function(recordId, response) {
         this.post.findAll({
@@ -395,6 +430,30 @@ function post() {
                     message: 'Authentication Failed'
                 })
         }
+    }
+
+    this.delete = function(recordId, response){
+        this.post.destroy({
+            where: {
+                postid: recordId
+            }
+        }).then(function(record) {
+            if (record)
+                response.send({
+                    status: 0,
+                    message: 'Post deleted successfully'
+                })
+            else
+                response.send({
+                    status: 1,
+                    message: 'Post not deleted'
+                })
+        }).catch(function(error) {
+            response.send({
+                status: 2,
+                message: 'Post does not exist'
+            })
+        })
     }
 }
 

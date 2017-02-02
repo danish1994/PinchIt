@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "body-parser": "~1.15.2",
-    "cloudinary": "^1.5.0",
     "connect": "~3.4.1",
     "express": "~4.14.0",
     "jsonwebtoken": "~7.0.1",
@@ -27,7 +26,6 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.0.0",
     "s3": "^4.4.0",
-    "s3-uploader": "^2.0.3",
     "sequelize": "~3.23.4"
   },
   "author": "danish",
