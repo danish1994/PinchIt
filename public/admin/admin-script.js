@@ -45,9 +45,9 @@ function adminShow(){
 
 function loadPost(posts){
 	$.each(posts, function (i, post) {
-		console.log(post)
 		$('#post-container').append(postPrototype(post))
 	})
+	$('#post-container').append('<div class="text-center row"> <h4> No More Posts </h4> </div>')
 }
 
 function postPrototype(post){
