@@ -1,15 +1,10 @@
 var sequelize = require('sequelize')
 
-var host = process.env.OPENSHIFT_MYSQL_DB_HOST || 'localhost'
-var port = process.env.OPENSHIFT_MYSQL_DB_PORT || 3306
+var host = 'localhost'
+var port = 3306
 var db = 'pinch'
-var user = 'adminw1rlCaA'
-var password = 'rH2lg6xPaC_8'
-
-if(process.env.USER == 'danish'){
-    user = 'root'
-    password = 'danish'
-}
+var user = 'root'
+var password = 'danish'
 
 function connection() {
     this.seq = null
