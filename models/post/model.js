@@ -53,7 +53,7 @@ function post() {
                 allowNull: false
             },
             post: {
-                type: sequalize.STRING,
+                type: sequalize.STRING(500),
                 allowNull: false
             },
             image: {
