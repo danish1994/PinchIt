@@ -56,6 +56,10 @@ function post() {
                 type: sequalize.STRING(500),
                 allowNull: false
             },
+            link: {
+                type: sequalize.STRING,
+                allowNull: true
+            },
             image: {
                 type: sequalize.STRING,
                 allowNull: false
@@ -335,6 +339,7 @@ function post() {
                             title: record.title,
                             post: record.post,
                             image: s3.getPublicUrlHttp(bucket, 'post/' + imageName ,'us-west-2'),
+                            link: record.link,
                             categoryid: record.category,
                             subcategoryid: record.subcategory,
                             writerid: writer.dataValues.writerid,
