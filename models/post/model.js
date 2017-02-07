@@ -146,7 +146,7 @@ function post() {
             offset: record.offset,
             limit: record.limit,
             order: [
-                ['createdAt', 'DESC']
+                ['updatedAt', 'DESC']
             ],
             include: [{
                 model: this.category,
@@ -162,7 +162,11 @@ function post() {
                 attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
             }],
             where: {
-                verified: true
+                verified: true,
+                updatedAt: {
+                    $lt: new Date(),
+                    $gt: new Date(record.updatedAt || new Date() - 2 * 24 * 60 * 60 * 1000)
+                }
             }
         }).then(function(posts) {
             response.send(posts)

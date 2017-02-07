@@ -21,7 +21,7 @@ function post_routes() {
         })
 
         service.get('/post/', function(request, response) {
-            post.get(request.body, response)
+            post.get(request.query, response)
         })
 
         service.post('/post/', function(request, response) {
