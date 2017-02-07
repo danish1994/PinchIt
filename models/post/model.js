@@ -165,7 +165,7 @@ function post() {
                 verified: true,
                 updatedAt: {
                     $lt: new Date(),
-                    $gt: new Date(record.updatedAt || new Date() - 2 * 24 * 60 * 60 * 1000)
+                    $gt: new Date(record.updatedAt || new Date() - 10 * 24 * 60 * 60 * 1000)
                 }
             }
         }).then(function(posts) {
