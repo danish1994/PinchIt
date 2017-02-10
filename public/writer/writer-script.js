@@ -91,6 +91,7 @@ $('#post-form').submit(function(event){
 	
 	title = $('#post-title').val()
 	post = $('#post-data').val()
+	link = $('#post-link').val()
 
 	$('#loading-modal').modal('show')
 
@@ -104,7 +105,8 @@ $('#post-form').submit(function(event){
 			imageData: imageData,
 			category: 1,
 			subcategory: 1,
-			post: post
+			post: post,
+			link: link
 		},
 		success: function(res){
 			console.log(res)
