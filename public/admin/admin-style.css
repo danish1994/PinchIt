@@ -29,3 +29,16 @@
 label{
     padding-top: 5px;
 }
+
+.post{
+    border: solid;
+}
+
+.post > div{
+    padding: 0;
+}
+
+.read-more{
+    background-color: #dcdcdc;
+    padding: 5px !important
+}
