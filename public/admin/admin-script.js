@@ -30,7 +30,7 @@ function adminHide() {
 function adminShow() {
     $.ajax({
         type: 'GET',
-        url: '/post/getall/',
+        url: '/post/unverified/',
         success: function(res) {
             $('#admin').show()
             $('#logout').show()
