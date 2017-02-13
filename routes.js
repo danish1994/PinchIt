@@ -5,6 +5,7 @@ var post_routes = require('./models/post/routes')
 var user_routes = require('./models/user/routes')
 var views_routes = require('./models/views/routes')
 var writer_routes = require('./models/writer/routes')
+var deviceid_routes = require('./models/deviceid/routes')
 
 var path = require('path')
 
@@ -50,5 +51,9 @@ module.exports = {
 
         //Views Routes
         views_routes.route(service)
+
+
+        //DeviceId Routes
+        deviceid_routes.route(service)
     }
 }

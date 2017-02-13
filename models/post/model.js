@@ -4,9 +4,12 @@ var jwt = require('jsonwebtoken')
 const jwtsecret = '7fchy5GCHGHJGYYC'
 const secret = 'jcjudr4yjj888HGCFC'
 var crypto = require('crypto')
+var FCM = require('fcm-node')
 
+var serverKey = 'AAAAsA4TmNk:APA91bGj-ImQiohqGFq3ybIcWYKCiMsvBYJhJ1u7Lqz30uGjnxd2ZeFIIeF59CgpbEfTQvq2tHQVJRjP8-i0Gu1nmWNhnNRszYPf0ozk_fWJGningw8XHIbbjH3IKW1jTS60JKuRgERR'
+var fcm = new FCM(serverKey)
 
-var s3 = require('s3');
+var s3 = require('s3')
 
 var client = s3.createClient({
     maxAsyncS3: 20, // this is the default 
@@ -32,8 +35,9 @@ function post() {
     this.writer = null
     this.admin = null
     this.views = null
+    this.deviceid = null
 
-    this.init = function(admin, category, subcategory, writer, views) {
+    this.init = function(admin, category, subcategory, writer, views, deviceid) {
         this.conn = connection.getConnection()
         sequalize = connection.getSequelize()
         this.admin = admin
@@ -41,7 +45,7 @@ function post() {
         this.subcategory = subcategory
         this.writer = writer
         this.views = views
-
+        this.deviceid = deviceid
         this.post = this.conn.define('post', {
             postid: {
                 type: sequalize.INTEGER,
@@ -142,6 +146,23 @@ function post() {
 
 
     this.get = function(record, response) {
+        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+            to: '/All Users/',
+          
+            notification: {
+                title: 'Title of your push notification',
+                body: 'Body of your push notification'
+            }
+        }
+
+        fcm.send(message, function(err, response) {
+            console.log(err)
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Successfully sent with response: ", response);
+            }
+        });
         this.post.findAll({
             offset: record.offset,
             limit: record.limit,
@@ -405,10 +426,11 @@ function post() {
                         }
                     }).then(function(post) {
                         if (post)
+
                             response.send({
-                                status: 0,
-                                message: 'Post verified'
-                            })
+                            status: 0,
+                            message: 'Post verified'
+                        })
                         else
                             response.send({
                                 status: 1,
