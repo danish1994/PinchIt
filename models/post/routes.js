@@ -4,8 +4,8 @@ function post_routes() {
 
     this.route = function(service) {
 
-        service.delete('/post/:id', function(request, response) {
-            post.delete(request.params.id, response)
+        service.delete('/post/:id/:token', function(request, response) {
+            post.delete(request.params, response)
         })
 
         service.get('/post/getAll/', function(request, response) {

@@ -7,10 +7,10 @@ var crypto = require('crypto')
 
 
 var s3 = require('s3');
- 
+
 var client = s3.createClient({
-    maxAsyncS3: 20,     // this is the default 
-    s3RetryCount: 3,    // this is the default 
+    maxAsyncS3: 20, // this is the default 
+    s3RetryCount: 3, // this is the default 
     s3RetryDelay: 1000, // this is the default 
     multipartUploadThreshold: 20971520, // this is the default (20 MB) 
     multipartUploadSize: 15728640, // this is the default (15 MB) 
@@ -294,23 +294,23 @@ function post() {
                     if (writer.dataValues.verified) {
                         var imageName = null
                         var bucket = 'www.pinched.in'
-                        if(record.image){
+                        if (record.image) {
                             imageName = new Date().toISOString() + record.title + writer.writerid
                             imageName = crypto.createHmac('sha256', secret)
-                            .update(imageName)
-                            .digest('hex')
+                                .update(imageName)
+                                .digest('hex')
 
                             imageName = imageName + '.' + record.image.split('.')[record.image.split('.').length - 1]
 
                             imagePath = 'public/img/posts/' + imageName
 
                             var image = record.imageData.replace(/^data:image\/jpeg;base64,/, "").replace(/^data:image\/png;base64,/, "").replace(/^data:image\/jpg;base64,/, "")
-                            
+
 
                             fs.writeFile(imagePath, image, 'base64', function(error) {
                                 if (error) {
                                     return console.error(error);
-                                }else{
+                                } else {
                                     var params = {
                                         localFile: imagePath,
 
@@ -337,12 +337,12 @@ function post() {
                                     })
                                 }
                             })
-                            
+
                         }
                         parent.post.create({
                             title: record.title,
                             post: record.post,
-                            image: s3.getPublicUrlHttp(bucket, 'post/' + imageName ,'us-west-2'),
+                            image: s3.getPublicUrlHttp(bucket, 'post/' + imageName, 'us-west-2'),
                             link: record.link,
                             categoryid: record.category,
                             subcategoryid: record.subcategory,
@@ -441,28 +441,57 @@ function post() {
         }
     }
 
-    this.delete = function(recordId, response){
-        this.post.destroy({
-            where: {
-                postid: recordId
-            }
-        }).then(function(record) {
-            if (record)
+    this.delete = function(record, response) {
+        try {
+            token = jwt.verify(record.token, jwtsecret)
+            adminid = token.adminid
+            parent = this
+            this.admin.find({
+                where: {
+                    adminid: adminid
+                }
+            }).then(function(admin) {
+                if (admin) {
+                    parent.post.destroy({
+                        where: {
+                            postid: record.id
+                        }
+                    }).then(function(record) {
+                        if (record)
+                            response.send({
+                                status: 0,
+                                message: 'Post deleted successfully'
+                            })
+                        else
+                            response.send({
+                                status: 1,
+                                message: 'Post not deleted'
+                            })
+                    }).catch(function(error) {
+                        response.send({
+                            status: 2,
+                            message: 'Post does not exist'
+                        })
+                    })
+                } else
+                    response.send({
+                        status: 3,
+                        message: 'Token Expired'
+                    })
+            })
+
+        } catch (error) {
+            if (error.name == 'TokenExpiredError')
                 response.send({
-                    status: 0,
-                    message: 'Post deleted successfully'
+                    status: 3,
+                    message: 'Token Expired'
                 })
             else
                 response.send({
-                    status: 1,
-                    message: 'Post not deleted'
+                    status: 4,
+                    message: 'Authentication Failed'
                 })
-        }).catch(function(error) {
-            response.send({
-                status: 2,
-                message: 'Post does not exist'
-            })
-        })
+        }
     }
 }
 

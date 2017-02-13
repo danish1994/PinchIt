@@ -82,7 +82,7 @@ function deletePost(id) {
     $('#loading-modal').modal('show')
     $.ajax({
         type: 'DELETE',
-        url: '/post/' + id,
+        url: '/post/' + id + '/' + admin_token,
         success: function(res) {
             console.log(res)
             if (res.status == 0) {
