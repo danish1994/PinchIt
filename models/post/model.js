@@ -146,23 +146,39 @@ function post() {
 
 
     this.get = function(record, response) {
-        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-            to: '/All Users/',
-          
-            notification: {
-                title: 'Title of your push notification',
-                body: 'Body of your push notification'
-            }
-        }
 
-        fcm.send(message, function(err, response) {
-            console.log(err)
-            if (err) {
-                console.log("Something has gone wrong!");
-            } else {
-                console.log("Successfully sent with response: ", response);
+        this.deviceid.findAll().then(function(deviceIds) {
+            for (let i = 0; i < deviceIds.length; i++) {
+                try {
+                    let deviceid = deviceIds[i]
+                    var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                        to: deviceid,
+                        notification: {
+                            title: 'Title of your push notification',
+                            body: 'Body of your push notification'
+                        }
+                    }
+
+                    fcm.send(message, function(err, response) {
+                        console.log(err)
+                        if (err) {
+                            console.log("Something has gone wrong!");
+                        } else {
+                            console.log("Successfully sent with response: ", response);
+                        }
+                    });
+                } catch (err) {
+                    console.log(err)
+                }
             }
-        });
+        }).catch(function(error) {
+            response.send({
+                status: 1,
+                message: error
+            })
+        })
+
+
         this.post.findAll({
             offset: record.offset,
             limit: record.limit,
