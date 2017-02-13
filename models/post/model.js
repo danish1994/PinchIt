@@ -152,7 +152,7 @@ function post() {
                 try {
                     let deviceid = deviceIds[i]
                     var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                        to: deviceid,
+                        to: deviceid.deviceid,
                         notification: {
                             title: 'Title of your push notification',
                             body: 'Body of your push notification'
