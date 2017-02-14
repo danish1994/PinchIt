@@ -407,47 +407,64 @@ function post() {
                         where: {
                             postid: record.postid
                         }
-                    }).then(function(post) {
-                        if (post) {
-                            parent.deviceid.findAll().then(function(deviceIds) {
-                                for (let i = 0; i < deviceIds.length; i++) {
-                                    try {
-                                        let deviceid = deviceIds[i]
-                                        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                                            to: deviceid.deviceid,
-                                            notification: {
-                                                title: 'New Pinch',
-                                                body: post.title
-                                            }
-                                        }
-                                        fcm.send(message, function(err, response) {
-                                            console.log(err)
-                                            if (err) {
-                                                console.log("Something has gone wrong!");
-                                            } else {
-                                                console.log("Successfully sent with response: ", response);
-                                            }
-                                        });
-                                    } catch (err) {
-                                        console.log(err)
-                                    }
+                    }).then(function(result) {
+                        if (result) {
+                            parent.post.findAll({
+                                order: [
+                                    ['createdAt', 'DESC']
+                                ],
+                                where: {
+                                    postid: record.postid
                                 }
+                            }).then(function(post) {
+                                parent.deviceid.findAll().then(function(deviceIds) {
+                                    let currentPost = post[0].dataValues
+                                    for (let i = 0; i < deviceIds.length; i++) {
+                                        try {
+                                            let deviceid = deviceIds[i]
+                                            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                                                to: deviceid.deviceid,
+                                                notification: {
+                                                    title: 'New Pinch',
+                                                    body: currentPost.title
+                                                }
+                                            }
+                                            fcm.send(message, function(err, response) {
+                                                console.log(err)
+                                                if (err) {
+                                                    console.log("Something has gone wrong!");
+                                                } else {
+                                                    console.log("Successfully sent with response: ", response);
+                                                }
+                                            });
+                                            response.send({
+                                                status: 0,
+                                                message: 'Post verified'
+                                            })
+                                        } catch (err) {
+                                            console.log(err)
+                                        }
+                                    }
+                                }).catch(function(error) {
+                                    console.log(error)
+                                    response.send({
+                                        status: 1,
+                                        message: error
+                                    })
+                                })
                             }).catch(function(error) {
+                                console.log(error)
                                 response.send({
                                     status: 1,
-                                    message: error
+                                    message: 'Post not verified'
                                 })
                             })
-
-                            response.send({
-                                status: 0,
-                                message: 'Post verified'
-                            })
-                        } else
+                        } else {
                             response.send({
                                 status: 1,
                                 message: 'Post not verified'
                             })
+                        }
                     }).catch(function(error) {
                         response.send({
                             status: 2,
