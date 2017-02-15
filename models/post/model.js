@@ -427,7 +427,10 @@ function post() {
                                                 notification: {
                                                     title: 'New Pinch',
                                                     body: currentPost.title
-                                                }
+                                                },
+                                                data: currentPost,
+                                                time_to_live: 86400,
+                                                priority: 'high'
                                             }
                                             fcm.send(message, function(err, response) {
                                                 console.log(err)
