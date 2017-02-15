@@ -52,6 +52,7 @@ function loadPost(posts) {
 
 function postPrototype(post) {
 
+
     var res = '<div class="col-sm-4">' +
         '                                <div class="row post">' +
         '                                    <div class="col-sm-12 post-image">' +
@@ -62,9 +63,12 @@ function postPrototype(post) {
         '                                    </div>' +
         '                                    <div class="col-sm-12">' +
         '                                        <p>' + post.post + '</p>' +
+        '                                        <br />' +
+        '                                        <br />' +
+        '                                        <p>Pinch By: ' + post.writer.name +
         '                                    </div>' +
         '                                    <div class="col-sm-12 read-more text-center">' +
-        '                                        <a href="' + post.link + '" target="_blank">Read More</a>' +
+        '                                        <a href="/" target="_blank">Read More</a>' +
         '                                    </div>' +
         '                                    <div class="col-sm-12">' +
         '                                        <button class="btn btn-default full-width" onClick="verifyPost(' + post.postid + ')">Verify</button>' +
