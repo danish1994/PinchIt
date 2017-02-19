@@ -317,7 +317,6 @@ function post() {
                                 } else {
                                     var params = {
                                         localFile: imagePath,
-
                                         s3Params: {
                                             Bucket: bucket,
                                             Key: 'post/' + imageName,

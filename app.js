@@ -1,5 +1,6 @@
 var bodyparser = require('body-parser')
 var connection = require('./connection')
+var backup = require('./backup')
 var express = require('express')
 var path = require('path')
 var routes = require('./routes')
@@ -14,6 +15,7 @@ var nodeadmin = require('nodeadmin')
 
 
 connection.init()
+backup()
 setup()
 
 app.use(function(req, res, next) {
