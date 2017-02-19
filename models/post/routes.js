@@ -24,6 +24,10 @@ function post_routes() {
             post.get(request.query, response)
         })
 
+        service.put('/post/', function(request, response) {
+            post.update(request.body, response)
+        })
+
         service.post('/post/', function(request, response) {
             post.postObject(request.body, response)
         })

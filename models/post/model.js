@@ -546,6 +546,54 @@ function post() {
                 })
         }
     }
+
+    this.update = function(record, response) {
+        try {
+            console.log(record)
+            token = jwt.verify(record.token, jwtsecret)
+            adminid = token.adminid
+            parent = this
+            this.admin.find({
+                where: {
+                    adminid: adminid
+                }
+            }).then(function(admin) {
+                if (admin) {
+                    parent.post.update({
+                        title: record.title,
+                        post: record.post,
+                        link: record.link
+                    }, {
+                        where: {
+                            postid: record.postid
+                        }
+                    }).then(function(posts) {
+                        console.log(posts)
+                        response.send({
+                            status: 0,
+                            message: 'Posts Updated'
+                        })
+                    })
+                } else
+                    response.send({
+                        status: 3,
+                        message: 'Token Expired'
+                    })
+            })
+
+        } catch (error) {
+            if (error.name == 'TokenExpiredError')
+                response.send({
+                    status: 3,
+                    message: 'Token Expired'
+                })
+            else
+                response.send({
+                    status: 4,
+                    message: 'Authentication Failed'
+                })
+        }
+    }
 }
 
 module.exports = new post()
