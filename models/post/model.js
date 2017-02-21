@@ -24,6 +24,9 @@ var client = s3.createClient({
     },
 })
 
+
+var Feed = require('feed')
+
 function post() {
 
     this.conn = null
@@ -418,6 +421,22 @@ function post() {
                             }).then(function(post) {
                                 parent.deviceid.findAll().then(function(deviceIds) {
                                     let currentPost = post[0].dataValues
+
+                                    let feed = new Feed({
+                                        title: currentPost.title,
+                                        description: currentPost.post,
+                                        link: 'http://pinched.in/',
+                                        copyright: 'All rights reserved 2017, Pinched.in',
+                                        updated: new Date(2013, 06, 14), // optional, default = today 
+
+                                        author: {
+                                            name: 'Pinch',
+                                            email: 'help@pinched.in',
+                                            link: 'https://pinched.in'
+                                        }
+                                    });
+
+                                    feed.render('rss-2.0');
                                     for (let i = 0; i < deviceIds.length; i++) {
                                         try {
                                             let deviceid = deviceIds[i]
