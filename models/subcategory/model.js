@@ -45,22 +45,44 @@ function subcategory() {
         return this.subcategory
     }
 
-    this.get = function(response) {
-        this.subcategory.findAll({
-            attributes: ['subcategoryid', 'subcategory'],
-            include: [{
-                model: this.category,
-                as: 'category',
-                attributes: ['categoryid', 'category']
-            }]
-        }).then(function(subcategory) {
-            response.send(subcategory)
-        }).catch(function(error) {
-            response.send({
-                status: 1,
-                message: error
+    this.get = function(record, response) {
+        console.log(record)
+        if (record.categoryid) {
+            this.subcategory.findAll({
+                attributes: ['subcategoryid', 'subcategory'],
+                include: [{
+                    model: this.category,
+                    as: 'category',
+                    attributes: ['categoryid', 'category']
+                }],
+                where: {
+                    categoryid: record.categoryid
+                }
+            }).then(function(subcategory) {
+                response.send(subcategory)
+            }).catch(function(error) {
+                response.send({
+                    status: 1,
+                    message: error
+                })
             })
-        })
+        } else {
+            this.subcategory.findAll({
+                attributes: ['subcategoryid', 'subcategory'],
+                include: [{
+                    model: this.category,
+                    as: 'category',
+                    attributes: ['categoryid', 'category']
+                }]
+            }).then(function(subcategory) {
+                response.send(subcategory)
+            }).catch(function(error) {
+                response.send({
+                    status: 1,
+                    message: error
+                })
+            })
+        }
     }
 
     this.post = function(record, response) {

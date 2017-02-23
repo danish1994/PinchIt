@@ -4,7 +4,7 @@ function subcategory_routes() {
 
     this.route = function(service) {
         service.get('/subcategory/', function(request, response) {
-            subcategory.get(response)
+            subcategory.get(request.query, response)
         })
 
         service.post('/subcategory/', function(request, response) {
