@@ -18,7 +18,7 @@ var client = s3.createClient({
 })
 
 module.exports = function() {
-    var job = new CronJob('0 0 0 * * 0', function() {
+    var job = new CronJob('0 0 0 * * 0-6', function() {
             fs.unlink('./backup.sql', (err) => {
                 if (!err) {
                     console.log('Deleted Old Backup');
