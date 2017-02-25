@@ -11,9 +11,6 @@ var app = express()
 var ip = 'localhost'
 var port = 8088
 
-var nodeadmin = require('nodeadmin')
-
-
 connection.init()
 backup()
 setup()
@@ -38,9 +35,6 @@ app.use(bodyparser.urlencoded({
     extended: true,
     parameterLimit: 500000
 }))
-
-//Node Admin
-app.use(nodeadmin(app))
 
 routes.configure(app)
 
