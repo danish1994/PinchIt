@@ -448,7 +448,8 @@ function post() {
                                                 },
                                                 data: currentPost,
                                                 time_to_live: 86400,
-                                                priority: 'high'
+                                                priority: 'high',
+                                                sound: 'default'
                                             }
                                             fcm.send(message, function(err, response) {
                                                 console.log(err)
