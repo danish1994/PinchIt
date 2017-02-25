@@ -7,8 +7,10 @@ var views_routes = require('./models/views/routes')
 var writer_routes = require('./models/writer/routes')
 var deviceid_routes = require('./models/deviceid/routes')
 
-var path = require('path')
+// var mail = require('./mail')
+// mail.sendMail('danish8802204230@gmail.com', 'Test', 'Twst', 'TRwesr')
 
+var path = require('path')
 
 module.exports = {
     configure: function(service) {
