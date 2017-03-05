@@ -107,34 +107,38 @@ $('#post-form').submit(function(event) {
 
     $('#loading-modal').modal('show')
 
-    $.ajax({
-        type: 'POST',
-        url: '/post/',
-        data: {
-            token: writer_token,
-            title: title,
-            image: image,
-            imageData: imageData,
-            category: category,
-            subcategory: subcategory,
-            post: post,
-            link: link
-        },
-        success: function(res) {
-            console.log(res)
-            $('#loading-modal').modal('hide')
-            if (res.status == 0) {
-                alert('Post Added and is Waiting for Verification')
-            } else {
+    if (category == null && subcategory == null) {
+        alert('Please Select a Category or Subcategory')
+        $('#loading-modal').modal('hide')
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: '/post/',
+            data: {
+                token: writer_token,
+                title: title,
+                image: image,
+                imageData: imageData,
+                category: category,
+                subcategory: subcategory,
+                post: post,
+                link: link
+            },
+            success: function(res) {
+                console.log(res)
+                $('#loading-modal').modal('hide')
+                if (res.status == 0) {
+                    alert('Post Added and is Waiting for Verification')
+                } else {
+                    alert('Something Went Wrong. Please Try Again.')
+                }
+            },
+            error: function(err) {
                 alert('Something Went Wrong. Please Try Again.')
+                $('#loading-modal').modal('hide')
             }
-        },
-        error: function(err) {
-            alert('Something Went Wrong. Please Try Again.')
-            $('#loading-modal').modal('hide')
-        }
-    })
-
+        })
+    }
 })
 
 $('#logout').click(function() {
