@@ -422,6 +422,8 @@ function post() {
                                 parent.deviceid.findAll().then(function(deviceIds) {
                                     let currentPost = post[0].dataValues
 
+                                    // Send Feed Start
+                                    
                                     let feed = new Feed({
                                         title: currentPost.title,
                                         description: currentPost.post,
@@ -434,9 +436,12 @@ function post() {
                                             email: 'help@pinched.in',
                                             link: 'https://pinched.in'
                                         }
-                                    });
+                                    })
 
-                                    feed.render('rss-2.0');
+                                    feed.render('rss-2.0')
+
+                                    // Feed End
+
                                     for (let i = 0; i < deviceIds.length; i++) {
                                         try {
                                             let deviceid = deviceIds[i]
@@ -449,7 +454,7 @@ function post() {
                                                 data: currentPost,
                                                 time_to_live: 86400,
                                                 priority: 'high',
-                                                sound: 'default'
+                                                sound: 'enabled'
                                             }
                                             fcm.send(message, function(err, response) {
                                                 console.log(err)
@@ -502,11 +507,12 @@ function post() {
                             message: error
                         })
                     })
-                } else
+                } else {
                     response.send({
                         status: 3,
                         message: 'Token Expired'
                     })
+                }
             })
 
         } catch (error) {
