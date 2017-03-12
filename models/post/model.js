@@ -20,7 +20,7 @@ var client = s3.createClient({
     s3Options: {
         accessKeyId: "AKIAICF55LTRN4M2NU5Q",
         secretAccessKey: "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",
-        region: 'us-west-2'
+        region: 'ap-southeast-1'
     },
 })
 
@@ -300,7 +300,7 @@ function post() {
                 if (writer) {
                     if (writer.dataValues.verified) {
                         var imageName = null
-                        var bucket = 'www.pinched.in'
+                        var bucket = 'pinched-singaport'
                         if (record.image) {
                             imageName = new Date().toISOString() + record.title + writer.writerid
                             imageName = crypto.createHmac('sha256', secret)
@@ -423,7 +423,7 @@ function post() {
                                     let currentPost = post[0].dataValues
 
                                     // Send Feed Start
-                                    
+
                                     let feed = new Feed({
                                         title: currentPost.title,
                                         description: currentPost.post,

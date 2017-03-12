@@ -13,7 +13,7 @@ var client = s3.createClient({
     s3Options: {
         accessKeyId: "AKIAICF55LTRN4M2NU5Q",
         secretAccessKey: "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",
-        region: 'us-west-2'
+        region: 'ap-southeast-1'
     },
 })
 
@@ -34,7 +34,7 @@ module.exports = function() {
             }, function(err) {
                 if (!err) {
                     console.log('Data Saved')
-                    let bucket = 'www.pinched.in'
+                    let bucket = 'pinched-singaport'
                     let backupName = 'Backup - ' + new Date() + '.sql'
                     console.log(backupName)
                     let params = {
