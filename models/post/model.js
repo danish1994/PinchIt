@@ -454,7 +454,7 @@ function post() {
                                                 data: currentPost,
                                                 time_to_live: 86400,
                                                 priority: 'high',
-                                                sound: 'default'
+                                                sound: 'pinch.mp3'
                                             }
                                             fcm.send(message, function(err, response) {
                                                 console.log(err)
