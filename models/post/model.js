@@ -422,65 +422,48 @@ function post() {
                                 parent.deviceid.findAll().then(function(deviceIds) {
                                     let currentPost = post[0].dataValues
 
-                                    // Send Feed Start
-
-                                    let feed = new Feed({
-                                        title: currentPost.title,
-                                        description: currentPost.post,
-                                        link: 'http://pinched.in/',
-                                        copyright: 'All rights reserved 2017, Pinched.in',
-                                        updated: new Date(2013, 06, 14), // optional, default = today 
-
-                                        author: {
-                                            name: 'Pinch',
-                                            email: 'help@pinched.in',
-                                            link: 'https://pinched.in'
-                                        }
-                                    })
-
-                                    feed.render('rss-2.0')
-
-                                    // Feed End
-
-                                    for (let i = 0; i < deviceIds.length; i++) {
-                                        try {
-                                            let deviceid = deviceIds[i]
-                                            var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-                                                to: deviceid.deviceid,
-                                                notification: {
-                                                    title: 'New Pinch',
-                                                    body: currentPost.title
-                                                },
-                                                data: currentPost,
-                                                time_to_live: 86400,
-                                                priority: 'high',
-                                                sound: 'android.resource://in.pinch/raw/pinch.mp3'
-                                            }
-                                            fcm.send(message, function(err, response) {
-                                                console.log(err)
-                                                if (err) {
-                                                    parent.deviceid.destroy({
-                                                        where: {
-                                                            deviceid: deviceid.deviceid
-                                                        }
-                                                    }).then(function(record) {
-                                                        if (record) {
-                                                            console.log('DeviceID Deleted')
-                                                        }
-                                                    })
-                                                    console.log("Something has gone wrong!");
-                                                } else {
-                                                    console.log("Successfully sent with response: ", response);
+                                    if (record.notification == 'true') {
+                                        for (let i = 0; i < deviceIds.length; i++) {
+                                            try {
+                                                let deviceid = deviceIds[i]
+                                                var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                                                    to: deviceid.deviceid,
+                                                    notification: {
+                                                        title: 'New Pinch',
+                                                        body: currentPost.title
+                                                    },
+                                                    data: currentPost,
+                                                    time_to_live: 86400,
+                                                    priority: 'high',
+                                                    sound: 'android.resource://in.pinch/raw/pinch.mp3'
                                                 }
-                                            });
-                                            response.send({
-                                                status: 0,
-                                                message: 'Post verified'
-                                            })
-                                        } catch (err) {
-                                            console.log(err)
+                                                fcm.send(message, function(err, response) {
+                                                    console.log(err)
+                                                    if (err) {
+                                                        parent.deviceid.destroy({
+                                                            where: {
+                                                                deviceid: deviceid.deviceid
+                                                            }
+                                                        }).then(function(record) {
+                                                            if (record) {
+                                                                console.log('DeviceID Deleted')
+                                                            }
+                                                        })
+                                                        console.log("Something has gone wrong!");
+                                                    } else {
+                                                        console.log("Successfully sent with response: ", response);
+                                                    }
+                                                });
+                                            } catch (err) {
+                                                console.log(err)
+                                            }
                                         }
                                     }
+
+                                    response.send({
+                                        status: 0,
+                                        message: 'Post verified'
+                                    })
                                 }).catch(function(error) {
                                     console.log(error)
                                     response.send({
