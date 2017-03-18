@@ -149,6 +149,16 @@ function post() {
 
 
     this.get = function(record, response) {
+        let where = {}
+        where.verified = true
+        where.updatedAt = {
+            $lt: new Date(),
+            $gt: new Date(record.updatedAt || new Date() - 10 * 24 * 60 * 60 * 1000)
+        }
+        if (record.category) {
+            where.categoryid = record.category
+        }
+
         this.post.findAll({
             offset: record.offset,
             limit: record.limit,
@@ -168,13 +178,7 @@ function post() {
                 as: 'writer',
                 attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
             }],
-            where: {
-                verified: true,
-                updatedAt: {
-                    $lt: new Date(),
-                    $gt: new Date(record.updatedAt || new Date() - 10 * 24 * 60 * 60 * 1000)
-                }
-            }
+            where: where
         }).then(function(posts) {
             response.send(posts)
         }).catch(function(error) {
@@ -187,6 +191,12 @@ function post() {
     }
 
     this.getUnverified = function(record, response) {
+        let where = {}
+        where.verified = false
+        if (record.category) {
+            where.categoryid = record.category
+        }
+
         this.post.findAll({
             offset: record.offset,
             limit: record.limit,
@@ -206,9 +216,7 @@ function post() {
                 as: 'writer',
                 attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
             }],
-            where: {
-                verified: false
-            }
+            where: where
         }).then(function(posts) {
             response.send(posts)
         }).catch(function(error) {
@@ -256,6 +264,11 @@ function post() {
 
 
     this.getAll = function(record, response) {
+        let where = {}
+        if (record.category) {
+            where.categoryid = record.category
+        }
+
         this.post.findAll({
             limit: record.limit,
             offset: record.offset,
@@ -274,7 +287,8 @@ function post() {
                 model: this.writer,
                 as: 'writer',
                 attributes: ['writerid', 'name', 'email', 'deviceid', 'verified']
-            }]
+            }],
+            where: where
         }).then(function(posts) {
             response.send(posts)
         }).catch(function(error) {

@@ -9,11 +9,11 @@ function post_routes() {
         })
 
         service.get('/post/getAll/', function(request, response) {
-            post.getAll(request.body, response)
+            post.getAll(request.query, response)
         })
 
         service.get('/post/unverified/', function(request, response) {
-            post.getUnverified(request.body, response)
+            post.getUnverified(request.query, response)
         })
 
         service.get('/post/:id', function(request, response) {
