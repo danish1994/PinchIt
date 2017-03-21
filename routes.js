@@ -6,6 +6,7 @@ var user_routes = require('./models/user/routes')
 var views_routes = require('./models/views/routes')
 var writer_routes = require('./models/writer/routes')
 var deviceid_routes = require('./models/deviceid/routes')
+var deviceCategoryRelation_routes = require('./models/deviceCategoryRelation/routes')
 
 // var mail = require('./mail')
 // mail.sendMail('danish8802204230@gmail.com', 'Test', 'Twst', 'TRwesr')
@@ -57,5 +58,8 @@ module.exports = {
 
         //DeviceId Routes
         deviceid_routes.route(service)
+
+        //DeviceCategoryRelation Routes
+        deviceCategoryRelation_routes.route(service)
     }
 }

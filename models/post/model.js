@@ -39,8 +39,9 @@ function post() {
     this.admin = null
     this.views = null
     this.deviceid = null
+    this.deviceCategoryRelation = null
 
-    this.init = function(admin, category, subcategory, writer, views, deviceid) {
+    this.init = function(admin, category, subcategory, writer, views, deviceid, deviceCategoryRelation) {
         this.conn = connection.getConnection()
         sequalize = connection.getSequelize()
         this.admin = admin
@@ -49,6 +50,7 @@ function post() {
         this.writer = writer
         this.views = views
         this.deviceid = deviceid
+        this.deviceCategoryRelation = deviceCategoryRelation
         this.post = this.conn.define('post', {
             postid: {
                 type: sequalize.INTEGER,
