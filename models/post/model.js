@@ -158,7 +158,16 @@ function post() {
             $gt: new Date(record.updatedAt || new Date() - 10 * 24 * 60 * 60 * 1000)
         }
         if (record.category) {
-            where.categoryid = record.category
+            let categories = record.category.split(',')
+            categories.push('3')
+
+            for (let i = 0; i < categories.length; i++) {
+                categories[i] = parseInt(categories[i])
+            }
+            console.log(categories)
+            where.categoryid = {
+                $in: categories
+            }
         }
 
         this.post.findAll({
