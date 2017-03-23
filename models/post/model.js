@@ -446,28 +446,32 @@ function post() {
                                 let currentPost = post[0].dataValues
                                 parent.deviceid.findAll().then(function(deviceIds) {
                                     if (record.notification == 'true') {
-                                        for (let i = 0; i < deviceIds.length; i++) {
-                                            let deviceid = deviceIds[i]
-                                            parent.deviceCategoryRelation.findAll({
-                                                where: {
-                                                    deviceidid: deviceid.deviceidid
-                                                }
-                                            }).then(function(deviceRelation) {
-                                                if (deviceRelation.length == 0) {
-                                                    parent.sendFCMNotification(deviceid, currentPost)
-                                                } else {
-                                                    console.log('Device IDS')
-                                                    for (let j = 0; j < deviceRelation.length; j++) {
-                                                        let relation = deviceRelation[j]
-                                                        if (relation.categoryid == currentPost.categoryid) {
-                                                            parent.sendFCMNotification(deviceid, currentPost)
-                                                            break
+                                        if (currentPost.category == 3) {
+                                            parent.sendFCMNotification(deviceid, currentPost)
+                                        } else {
+                                            for (let i = 0; i < deviceIds.length; i++) {
+                                                let deviceid = deviceIds[i]
+                                                parent.deviceCategoryRelation.findAll({
+                                                    where: {
+                                                        deviceidid: deviceid.deviceidid
+                                                    }
+                                                }).then(function(deviceRelation) {
+                                                    if (deviceRelation.length == 0) {
+                                                        parent.sendFCMNotification(deviceid, currentPost)
+                                                    } else {
+                                                        console.log('Device IDS')
+                                                        for (let j = 0; j < deviceRelation.length; j++) {
+                                                            let relation = deviceRelation[j]
+                                                            if (relation.categoryid == currentPost.categoryid) {
+                                                                parent.sendFCMNotification(deviceid, currentPost)
+                                                                break
+                                                            }
                                                         }
                                                     }
-                                                }
-                                            }).catch(function(err) {
-                                                console.log(err)
-                                            })
+                                                }).catch(function(err) {
+                                                    console.log(err)
+                                                })
+                                            }
                                         }
                                     }
                                 }).catch(function(error) {
