@@ -444,56 +444,30 @@ function post() {
                                 }
                             }).then(function(post) {
                                 let currentPost = post[0].dataValues
-
                                 parent.deviceid.findAll().then(function(deviceIds) {
                                     if (record.notification == 'true') {
                                         for (let i = 0; i < deviceIds.length; i++) {
                                             let deviceid = deviceIds[i]
                                             parent.deviceCategoryRelation.findAll({
                                                 where: {
-                                                    deviceCategoryRelationid: deviceid.deviceidid
+                                                    deviceidid: deviceid.deviceidid
                                                 }
-                                            }).then(function(result) {
-                                                if (result) {
-                                                    console.log(result)
+                                            }).then(function(deviceRelation) {
+                                                if (deviceRelation.length == 0) {
+                                                    parent.sendFCMNotification(deviceid, currentPost)
                                                 } else {
-                                                    console.log('send to All')
+                                                    console.log('Device IDS')
+                                                    for (let j = 0; j < deviceRelation.length; j++) {
+                                                        let relation = deviceRelation[j]
+                                                        if (relation.categoryid == currentPost.categoryid) {
+                                                            parent.sendFCMNotification(deviceid, currentPost)
+                                                            break
+                                                        }
+                                                    }
                                                 }
                                             }).catch(function(err) {
                                                 console.log(err)
                                             })
-                                            try {
-                                                var message = {
-                                                    to: deviceid.deviceid,
-                                                    notification: {
-                                                        title: 'New Pinch',
-                                                        body: currentPost.title
-                                                    },
-                                                    data: currentPost,
-                                                    time_to_live: 86400,
-                                                    priority: 'high',
-                                                    sound: 'android.resource://in.pinch/raw/pinch.mp3'
-                                                }
-                                                fcm.send(message, function(err, response) {
-                                                    console.log(err)
-                                                    if (err) {
-                                                        parent.deviceid.destroy({
-                                                            where: {
-                                                                deviceid: deviceid.deviceid
-                                                            }
-                                                        }).then(function(record) {
-                                                            if (record) {
-                                                                console.log('DeviceID Deleted')
-                                                            }
-                                                        })
-                                                        console.log("Something has gone wrong!");
-                                                    } else {
-                                                        console.log("Successfully sent with response: ", response);
-                                                    }
-                                                });
-                                            } catch (err) {
-                                                console.log(err)
-                                            }
                                         }
                                     }
                                 }).catch(function(error) {
@@ -547,6 +521,42 @@ function post() {
                     status: 4,
                     message: 'Authentication Failed'
                 })
+        }
+    }
+
+    this.sendFCMNotification = function(deviceid, currentPost) {
+        try {
+            let parent = this
+            var message = {
+                to: deviceid.deviceid,
+                notification: {
+                    title: 'New Pinch',
+                    body: currentPost.title
+                },
+                data: currentPost,
+                time_to_live: 86400,
+                priority: 'high',
+                sound: 'android.resource://in.pinch/raw/pinch.mp3'
+            }
+            fcm.send(message, function(err, response) {
+                console.log(err)
+                if (err) {
+                    parent.deviceid.destroy({
+                        where: {
+                            deviceid: deviceid.deviceid
+                        }
+                    }).then(function(record) {
+                        if (record) {
+                            console.log('DeviceID Deleted')
+                        }
+                    })
+                    console.log("Something has gone wrong!");
+                } else {
+                    console.log("Successfully sent with response: ", response);
+                }
+            });
+        } catch (err) {
+            console.log(err)
         }
     }
 
