@@ -446,7 +446,7 @@ function post() {
                                 let currentPost = post[0].dataValues
                                 parent.deviceid.findAll().then(function(deviceIds) {
                                     if (record.notification == 'true') {
-                                        if (currentPost.category == 3) {
+                                        if (currentPost.categoryid == 3) {
                                             parent.sendFCMNotification(deviceid, currentPost)
                                         } else {
                                             for (let i = 0; i < deviceIds.length; i++) {
