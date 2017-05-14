@@ -155,7 +155,7 @@ function post() {
         where.verified = true
         where.updatedAt = {
             $lt: new Date(),
-            $gt: new Date(record.updatedAt || new Date() - 30 * 24 * 60 * 60 * 1000)
+            $gt: new Date(record.updatedAt || new Date() - 60 * 24 * 60 * 60 * 1000)
         }
         if (record.category) {
             let categories = record.category.split(',')
