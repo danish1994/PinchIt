@@ -8,8 +8,8 @@ module.exports = {
             port: 465,
             secure: true, // use SSL
             auth: {
-                user: 'social@pinched.in',
-                pass: 'pinched123#'
+                user: process.env.EMAIL,
+                pass: process.env.PASS
             }
         });
 
